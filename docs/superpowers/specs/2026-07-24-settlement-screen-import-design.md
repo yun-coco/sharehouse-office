@@ -1,37 +1,91 @@
 # 관리비 정산 화면 이식 — Design Spec
 
-**출처:** Claude Design 프로젝트 "쉐어하우스 사무소 Design System" (projectId: `fc931420-d4b4-487a-99fb-8739e0b0175a`), `ui_kits/admin-dashboard/SettlementScreen.jsx` 및 그 의존 컴포넌트.
+**출처:** Claude Design 프로젝트 "쉐어하우스 사무소"(`c5769f2e-9bea-48c1-9d53-4afe499a9c85`)의 `Maintenance Fee Settlement.dc.html`.
 
-**목표:** Claude Design에서 만든 관리비 정산(Maintenance Fee Settlement) 화면과 그 의존 컴포넌트를, 이 Next.js 프로젝트에 Tailwind CSS 기반으로 이식한다. 디자인은 원본과 픽셀 단위로 동일해야 한다.
+> 이전 초안(2회)의 문제:
+> 1. 최초 초안은 다른(구버전) Claude Design 프로젝트(`fc931420...`)를 기준으로 작성되어 공지사항 섹션을 잘못 제외했다.
+> 2. 2차 초안은 소스는 올바르게 고쳤으나, 디자인 파일에 이미 완성되어 있는 태블릿/모바일 반응형을 "원본에서 미확인"이라며 Out of Scope로 잘못 제외했다. 실제로는 `Maintenance Fee Settlement.dc.html`에 데스크톱(`ChromeWindow`, 1280px)과 모바일(`IOSDevice`, 390px) 프레임이 모두 완전한 마크업으로 존재하며, 상단에 데스크톱/태블릿/모바일 전환 탭도 있다.
+>
+> 이번 버전은 이 두 가지를 바로잡는다.
+
+**목표:** 관리비 정산 화면 — 공지사항, 이번달 관리비, 입주자별 관리비가 하나로 통합된 단일 화면 — 을 이 Next.js 프로젝트에 Tailwind CSS 기반으로, 데스크톱/태블릿/모바일 반응형까지 포함해 이식한다.
+
+## 디자인 파일에만 존재하는 "미리보기 장치" — 구현 대상 아님
+
+`Maintenance Fee Settlement.dc.html` 최상단에는 이 프로젝트의 실제 화면이 아닌, Claude Design 캔버스에서 여러 상태를 확인하기 위한 전용 컨트롤이 있다:
+
+- **데스크톱/태블릿/모바일 전환 탭** (`goDesktop`/`goTablet`/`goMobile` 버튼) — 캔버스에서 프레임을 골라보기 위한 장치. 실제 서비스에서는 뷰포트 크기에 따라 CSS로 자동 전환되므로 이 탭 UI 자체는 구현하지 않는다.
+- **"🔍 상태 미리보기" 드롭다운** (`scenario`/`scenarioOptions`) — 관리비 0건, 입주자 0명, 영수증 업로드 실패 등 여러 상태를 골라보기 위한 장치.
+- **"🔐 로그인 상태 미리보기" 토글** — 로그인/비로그인 상태를 골라보기 위한 장치.
+
+**주의**: 이 컨트롤들이 "가리키는" 각 상태 화면(빈 상태, 로그인 게이트, 업로드 실패 표시 등)은 실제 서비스에도 존재해야 하는 화면이므로 전부 구현 대상이다. 구현하지 않는 것은 오직 그 상태를 "고르기 위한 선택 UI"(탭 버튼, 드롭다운, 토글) 자체다.
+
+## 화면 구조
+
+`admin.sharehouse.app/settlements/2026-07` 기준, 사이드바 메뉴는 `관리비 정산` / `입주자 관리` 2개뿐이다. **관리비 정산** 화면은 위에서 아래로:
+
+1. **헤더**: "관리비 정산" 타이틀, 정산월 선택 드롭다운("2026년 7월"), "입주자용 페이지로 이동" 링크, 게시 상태 뱃지/버튼("게시하기 전" 등), "정산 결과 발송" 버튼(게시 전엔 비활성 + hover 툴팁 "게시 후 발송할 수 있습니다")
+2. **📌 공지사항** — 드래그로 순서 변경, 각 항목 편집/삭제, "+ 추가" 버튼. 카드형(연한 노란 배경)
+3. **💵 이번달 관리비** — 표: 항목(색상 태그: 전기세/수도세/인터넷/공용물품), 시작일/구매일, 종료일, 금액, 메모, 영수증(첨부됨 링크/업로드 실패 빨간 텍스트/-), 편집/삭제 아이콘. 하단에 합계 행. "이미지 저장" 액션과 "+ 추가" 버튼. 항목 0건일 때 blur 처리된 표 위에 안내 문구 오버레이.
+4. **🧾 입주자별 관리비** — 표: 이름, 시작일, 종료일, 이용일수, 관리비(최종 정산액). "이미지 저장" 액션. 입주자 0명일 때 동일한 blur+오버레이 패턴.
+
+### 반응형 (3티어, 모두 구현 대상)
+
+- **데스크톱**: 사이드바 상시 노출(230px, in-flow), 표는 가로 테이블 형태
+- **태블릿**: 사이드바는 햄버거로 토글, 열리면 반투명 배경(backdrop) 위에 오버레이
+- **모바일(390px 기준)**: 헤더에 햄버거 + `⋮`(더보기 메뉴: 입주자용 페이지 이동/게시/발송), 사이드바는 50% 폭 드로어, 표는 카드형 리스트로 전환
+
+세 티어는 디자인 파일에서 각각 별도 고정폭 프레임으로 그려졌지만(Claude Design 캔버스 제약), 실제 구현에서는 **CSS 미디어쿼리 기반 하나의 반응형 페이지**로 만든다 — 별도 페이지 3개가 아니다.
+
+### 로그인 게이트 (화면만, 실제 인증 없음)
+
+비로그인 상태를 나타내는 풀스크린 오버레이(로고, "로그인이 필요해요" 문구, "Google로 로그인" 버튼)를 화면으로는 구현하되, 버튼 클릭 시 실제 OAuth 동작은 없다. 초기 렌더는 로그인된 상태로 보여준다 (empty state 등 다른 화면들을 바로 확인할 수 있도록).
+
+## 관리비 계산 로직 — 이번 범위 밖, 그러나 필드 존재는 인지
+
+`docs/sharehouse_office_PRD.md` 4장(계산 로직)이 유일한 기준이며, 화면에 보이는 이용일수/관리비 최종액은 그 로직의 산출물이다. 이번 정적 이식에서는 이 계산을 구현하지 않고 하드코딩된 결과값을 그대로 표시한다. 실제 계산 함수 구현 시 PRD 4장을 그대로 따른다.
 
 ## 범위
 
-- **포함:** 관리비 정산 화면(`SettlementScreen`)과 그 의존 컴포넌트 전체 — `AppShell`, `Sidebar`, `PageHeader`, `HamburgerButton`, `SectionTitle`, `ListRow`, `Button`, `IconButton`, `Icon`, `Input`.
-- **제외:** 공지사항(`NoticeScreen`), 방 관리/입주자 관리 화면(디자인 시스템에도 아직 미구현), `ConfirmDialog`/`WarningDialog`/`Toast`/`EmptyState` (공지사항 화면 전용이라 정산 화면에서 쓰이지 않음).
-- **제외 (별도 작업):** Supabase 데이터 연동. 정산 화면의 목업 데이터(5개 방, `101호 김서연 128,400원 완료` 등)는 하드코딩된 상태로 그대로 이식한다.
+- **포함:** 관리비 정산 화면 전체 — 헤더, 공지사항 섹션, 이번달 관리비 섹션, 입주자별 관리비 섹션, 사이드바(`관리비 정산`/`입주자 관리` 2메뉴). **데스크톱/태블릿/모바일 반응형 전부 포함.**
+- **포함(정적 마크업만, 로컬 state로 시뮬레이션):** 공지사항 드래그 정렬, 편집/삭제/추가 UI, 관리비 항목 편집/삭제/추가 UI, 날짜 캘린더 팝오버 열기/닫기, 게시/발송 확인 모달, 각종 empty state·에러 상태 화면.
+- **제외 (별도 작업):** Supabase 데이터 연동, 관리비 계산 로직(일할계산), 실제 로그인/인증 플로우, 실제 이미지 저장(html-to-image)/영수증 업로드, 입주자용 공개 조회 화면(화면3), 입주자 관리 화면(화면2) 자체 구현.
+- **제외 (디자인 파일 전용 장치, 애초에 대상 아님):** 데스크톱/태블릿/모바일 선택 탭, "상태 미리보기" 드롭다운, "로그인 상태 미리보기" 토글. 사이드바의 "입주자 관리" 링크, "입주자용 페이지로 이동" 링크, "Google로 로그인" 버튼은 UI로만 존재하고 클릭 동작은 없음.
+- **목업 데이터:** 디자인 파일에서 실제로 보이는 값(전기세, 수도세, 인터넷비, 공용물품 등 항목과 금액; 입주자 이름/계약기간/이용일수/관리비)을 하드코딩 mock으로 사용.
 
 ## 아키텍처
 
-### 스타일링: Tailwind CSS 전량 재작성 + 토큰 매핑
+### 라우팅
 
-원본 컴포넌트는 inline style + CSS 커스텀 프로퍼티(`tokens/colors.css`, `spacing.css`, `typography.css`)로 작성되어 있다. 이를 Tailwind 클래스로 재작성하되, `tailwind.config.ts`의 `theme.extend`에 원본 토큰 값을 1:1로 등록해 임의의 Tailwind 기본값이 아닌 디자인 시스템 고유 값을 그대로 참조하게 한다.
+PRD 명세(`/settlements/:year-:month`)를 따라 동적 라우트로 만든다:
 
-**매핑 대상 (원본 → Tailwind config):**
+```
+src/app/(admin)/settlements/[yearMonth]/page.tsx
+```
 
-| 원본 토큰 파일 | Tailwind 카테고리 | 비고 |
-|---|---|---|
-| `tokens/colors.css` (green-50~900, gray-50~900, red-500~700, semantic 컬러) | `theme.extend.colors` | `--btn-*-bg` 등 semantic 이름도 그대로 유지 |
-| `tokens/spacing.css` (`--space-1`~`--space-10`) | `theme.extend.spacing` | 숫자 키 유지 (`space-3` → Tailwind `3`은 이미 다른 값이므로 커스텀 키 사용, 예: `p-3` 대신 매핑 후 재검증) |
-| `tokens/spacing.css` (radius, shadow) | `borderRadius`, `boxShadow` | `--radius-pill`은 매핑하되 실사용 없음(원본에도 unused) |
-| `tokens/typography.css` (`--text-*`, `--weight-*`) | `fontSize`, `fontWeight` | `Noto Sans KR` → `fontFamily.sans` |
-| `--touch-target`(44px), `--sidebar-width`(230px), `--sidebar-width-mobile`(50vw) | `spacing` 커스텀 키 | 컴포넌트 전용 상수 |
-| `--duration-fast/base`, `--ease-standard` | `transitionDuration`, `transitionTimingFunction` | |
+서버 컴포넌트로 두되, 이번 이식에서는 실제 fetch 없이 mock 데이터를 직접 둔다. 편집/삭제/드래그/모달/캘린더처럼 상호작용이 필요한 하위 컴포넌트만 `"use client"`로 분리한다.
 
-값 충돌 방지: Tailwind 기본 스케일과 숫자가 겹치더라도(`gap-3`=0.75rem=12px vs `--space-3`=12px) 반드시 config에 명시적으로 등록해 우연한 일치에 의존하지 않는다.
+### 반응형 구현 방식
+
+Tailwind breakpoint(`md:`, `lg:`)로 하나의 컴포넌트 트리 안에서 레이아웃을 전환한다. 데스크톱/태블릿 경계와 태블릿/모바일 경계는 디자인 파일의 프레임 폭(1280px 데스크톱, 태블릿은 사이드바 오버레이 전환 지점, 390px 모바일)을 참고해 breakpoint 값을 정한다.
+
+### 스타일링: Tailwind CSS + 실측 토큰
+
+디자인 파일이 inline style(px 단위 hex 컬러)로 작성되어 있으므로, 화면에서 실측한 값(배경 `#f3f2ee`, 포인트 그린 `#2f6f52`, 텍스트 `#1a1a1a`/`#37352f`/`#6b6b62`, 항목 태그 색상: 전기세-그린, 수도세-블루, 인터넷-옐로우, 공지사항 카드-옐로우, 업로드 실패-레드, 경고 토스트-레드, 안내 토스트-다크)를 `tailwind.config.ts`의 `theme.extend`에 등록해 참조한다. 폰트는 Noto Sans KR.
+
+값 충돌 방지: Tailwind 기본 스케일과 숫자가 겹치더라도 반드시 config에 명시적으로 등록해 우연한 일치에 의존하지 않는다.
 
 ### 아이콘
 
-원본은 CDN Lucide(`unpkg.com/lucide`, `data-lucide` attribute + `lucide.createIcons()`)를 사용한다. Next.js에서는 `lucide-react` npm 패키지로 대체하고, `Icon` 컴포넌트가 아이콘 이름 문자열로 `lucide-react`의 컴포넌트를 동적으로 찾아 렌더링하도록 한다. 같은 아이콘셋이므로 시각적 차이 없음.
+CDN Lucide 대신 `lucide-react` npm 패키지 사용. CLAUDE.md의 아이콘 규칙을 그대로 따른다: 수정(`pencil`)/삭제(`trash-2`, 레드)/저장(`check`)/취소(`x`) 모두 44×44px 터치 타깃, 16–18px 글리프.
+
+### 날짜 필드 컴포넌트 재사용
+
+CLAUDE.md 규칙에 따라, 관리비 항목의 시작일/종료일 인라인 편집은 네이티브 `<input type="date">`가 아니라 버튼+팝오버 캘린더 컴포넌트 하나로 통일한다 (`DateRangePopover` 형태로 구현, 시작일은 `left:0` 앵커, 종료일은 `right:0` 앵커, 종료일에는 "제거하기" 옵션).
+
+### 테이블 인라인 편집 규칙
+
+CLAUDE.md 규칙을 따른다: 조회/수정 모드 배치 동일 유지, `table-layout:fixed`+각 th에 width% 직접 지정, 한 번에 하나의 행만 편집 가능(다른 행 편집 시도 시 경고 다이얼로그), 드래그는 항상 `draggable`을 켜두되 핸들러 내부에서 편집 중 여부 체크, "+ 추가"는 모달 없이 마지막 행을 바로 편집 모드로 전환, 모든 입력 필드에 placeholder, 드래그 드롭존은 첫 행 위/마지막 행 아래에도 존재, 드래그 핸들은 별도 열/영역 차지.
 
 ### 파일 구조
 
@@ -41,61 +95,65 @@ src/
     ui/
       Button.tsx
       IconButton.tsx
-      Icon.tsx
-      Input.tsx
+      Toast.tsx
     layout/
       Sidebar.tsx
-      PageHeader.tsx
-      HamburgerButton.tsx
-      SectionTitle.tsx
-      AppShell.tsx
-    data/
-      ListRow.tsx
+      SettlementHeader.tsx
+    settlement/
+      AnnouncementSection.tsx   # 공지사항 (드래그 정렬, client)
+      ExpenseTable.tsx          # 이번달 관리비 (client)
+      TenantFeeTable.tsx        # 입주자별 관리비 (client, 정렬/편집 없음 - 읽기 전용 표시)
+      DateRangePopover.tsx      # 날짜 범위 버튼+팝오버 캘린더 (client)
+    modals/
+      ConfirmModal.tsx          # 게시/발송 확인 공용 모달
+      LoginGate.tsx             # 로그인 안 된 상태 오버레이
   app/
     (admin)/
-      layout.tsx        # AppShell 적용, sidebar tier(desktop/tablet/mobile) 반응형 상태 관리
-      settlement/
-        page.tsx          # 관리비 정산 화면, ROOMS 목업 데이터 포함
-  tailwind.config.ts       # 토큰 매핑
+      layout.tsx
+      settlements/
+        [yearMonth]/
+          page.tsx              # 관리비 정산 화면 (서버 컴포넌트, mock 데이터)
+  tailwind.config.ts
 ```
 
-`(admin)` 라우트 그룹을 쓰는 이유: 향후 공지사항/방 관리/입주자 관리 화면도 같은 셸을 공유하게 되므로, 이 그룹 밖의 화면(로그인, 공개 조회용 화면3)과 구분해둔다.
-
-### 타입 변환
-
-각 컴포넌트에 `interface XxxProps`를 정의하고 `.jsx` → `.tsx`로 변환한다. 예:
+### 타입 정의 (주요 목업 데이터 형태)
 
 ```ts
-interface ListRowColumn {
-  key: string;
-  value: string;
-  flex?: number;
-  secondary?: boolean;
-  wrap?: boolean;
+interface MaintenanceFeeItem {
+  id: string;
+  category: '전기세' | '수도세' | '인터넷' | '공용물품';
+  startDate: string;   // '2026.07.01'
+  endDate: string | null;
+  amount: number;
+  memo?: string;
+  receiptStatus: 'attached' | 'error' | 'none';
 }
-interface ListRowProps {
-  columns: ListRowColumn[];
-  editing?: boolean;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onSave?: () => void;
-  onCancel?: () => void;
-  editFields?: Record<string, string>;
-  onEditFieldChange?: (key: string, value: string) => void;
+
+interface TenantFeeRow {
+  id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  usageDays: number;
+  fee: number;
+}
+
+interface Announcement {
+  id: string;
+  title: string;
+  body: string;
 }
 ```
-
-### 데이터
-
-`SettlementScreen`의 5행 목업 데이터를 그대로 하드코딩 유지. 정렬/필터/실제 정산 계산 로직은 포함하지 않는다 — PRD의 "계산 로직" 섹션(`docs/sharehouse_office_PRD.md`)과 Supabase 스키마(`maintenance_fee_items`, `tenants`, `settlement_periods`)를 연동하는 것은 이 작업의 범위 밖이며, 별도 계획으로 진행한다.
 
 ## 검증
 
-컴포넌트 변환 후, Claude Design 원본(`ui_kits/admin-dashboard/index.html`을 브라우저에서 직접 열거나 캡처)과 이식된 화면을 나란히 비교해 spacing/color/font-size/hover-active 상태가 일치하는지 확인한다. 데스크톱/태블릿/모바일 3개 티어에서 sidebar 반응형 동작(in-flow / overlay-transparent / drawer-scrim)도 함께 검증한다.
+컴포넌트 변환 후, Claude Design 원본(`https://claude.ai/design/p/c5769f2e-9bea-48c1-9d53-4afe499a9c85?file=Maintenance+Fee+Settlement.dc.html`)과 이식된 화면을 데스크톱/태블릿/모바일 3개 뷰포트 각각에서 나란히 비교해 레이아웃/색상/타이포그래피가 일치하는지 확인한다. 편집/삭제/추가 버튼의 hover 상태, 드래그 정렬, 캘린더 팝오버 위치(가장자리 잘림 없는지)도 함께 확인한다.
 
 ## Out of Scope
 
-- Supabase 실데이터 연동 (별도 계획)
-- 공지사항 화면 및 그 전용 컴포넌트(ConfirmDialog, WarningDialog, Toast, EmptyState)
-- 방 관리 / 입주자 관리 화면 (디자인 미완성)
-- 인증/로그인 플로우와의 연결 (`(admin)` 그룹에 auth guard를 붙이는 것은 별도 작업)
+- 관리비 계산 로직 구현 (PRD 4장의 일할계산·항목별 유효기간 분배 로직)
+- Supabase 실데이터 연동
+- 실제 로그인/인증 플로우 (화면만 재현)
+- 실제 이미지 저장(html-to-image)/영수증 업로드 로직
+- 입주자용 공개 조회 화면(화면3), 입주자 관리 화면(화면2)
+- 디자인 파일 전용 미리보기 컨트롤(데스크톱/태블릿/모바일 탭, 상태 시나리오 드롭다운, 로그인 토글)
