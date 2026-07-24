@@ -421,16 +421,17 @@ git commit -m "docs: Google OAuth 설정 기록"
 ### Task 6: 연결 검증용 스모크 테스트 페이지
 
 **Files:**
-- Create: `src/app/_debug/supabase-check/page.tsx`
+- Create: `src/app/debug/supabase-check/page.tsx`
 - Test: 브라우저 수동 확인 (자동화 테스트 없음 — DB/Auth 연결 자체를 눈으로 확인하는 목적)
 
 **Interfaces:**
 - Consumes: `src/lib/supabase/server.ts`의 `createClient()` (기존 파일, 이미 구현됨)
-- Produces: `/​_debug/supabase-check` 라우트. 다음 계획에서 실제 화면 구현이 끝나면 이 디버그 페이지는 삭제한다.
+- Produces: `/debug/supabase-check` 라우트. 다음 계획에서 실제 화면 구현이 끝나면 이 디버그 페이지는 삭제한다.
+  (원래 계획은 `_debug`였으나, Next.js App Router가 `_`로 시작하는 폴더를 라우팅에서 제외하는 사양 때문에 `debug`로 구현됨)
 
 - [ ] **Step 1: 스모크 테스트 페이지 작성**
 
-`src/app/_debug/supabase-check/page.tsx`:
+`src/app/debug/supabase-check/page.tsx`:
 
 ```tsx
 import { createClient } from "@/lib/supabase/server";
@@ -469,13 +470,13 @@ export default async function SupabaseCheckPage() {
 - [ ] **Step 2: 로그인 없이 접근해 anon 정책 확인**
 
 Run: `pnpm dev`
-브라우저에서 `http://localhost:3000/_debug/supabase-check` 접속.
+브라우저에서 `http://localhost:3000/debug/supabase-check` 접속.
 Expected: `branches` 섹션에 RLS 에러(anon은 `branches` select 정책이 없으므로 빈 배열 또는 permission denied) — Task 3에서 `branches`는 `authenticated`만 select 허용했으므로 anon 접속 시 빈 배열이 정상.
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add src/app/_debug
+git add src/app/debug
 git commit -m "chore: Supabase 연결 확인용 디버그 페이지 추가"
 ```
 
