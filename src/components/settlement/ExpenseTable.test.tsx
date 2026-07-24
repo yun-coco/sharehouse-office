@@ -40,7 +40,7 @@ describe("ExpenseTable", () => {
   it("행 삭제 확인 시 실행취소 토스트가 뜨고, 실행취소하면 복원된다", async () => {
     render(<ExpenseTable />);
     await userEvent.click(screen.getAllByRole("button", { name: "관리비 항목 삭제" })[0]);
-    await userEvent.click(screen.getByRole("button", { name: "삭제", exact: true }));
+    await userEvent.click(screen.getByRole("button", { name: "삭제" }));
     expect(await screen.findByText(/행을 삭제했어요/)).toBeInTheDocument();
     await userEvent.click(screen.getByRole("link", { name: "실행취소" }));
     expect(screen.getAllByText("가스비").length).toBeGreaterThan(0);

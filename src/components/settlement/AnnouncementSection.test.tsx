@@ -37,7 +37,7 @@ describe("AnnouncementSection", () => {
     render(<AnnouncementSection />);
     const deleteButtons = screen.getAllByRole("button", { name: "공지사항 삭제" });
     await userEvent.click(deleteButtons[0]);
-    await userEvent.click(screen.getByRole("button", { name: "삭제", exact: true }));
+    await userEvent.click(screen.getByRole("button", { name: "삭제" }));
     expect(screen.queryByText("정산 결과 안내")).not.toBeInTheDocument();
   });
 
