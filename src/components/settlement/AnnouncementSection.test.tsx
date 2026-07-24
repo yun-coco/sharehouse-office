@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AnnouncementSection } from "./AnnouncementSection";
 
@@ -39,5 +39,18 @@ describe("AnnouncementSection", () => {
     await userEvent.click(deleteButtons[0]);
     await userEvent.click(screen.getByRole("button", { name: "삭제", exact: true }));
     expect(screen.queryByText("정산 결과 안내")).not.toBeInTheDocument();
+  });
+
+  it("첫 항목을 드래그해서 목록 끝 드롭존에 놓으면 마지막으로 이동한다", () => {
+    render(<AnnouncementSection />);
+    const firstRow = screen.getByTestId("announcement-row-ann-1");
+    const endDropZone = screen.getByTestId("announcement-end-drop-zone");
+
+    fireEvent.dragStart(firstRow);
+    fireEvent.dragOver(endDropZone);
+    fireEvent.drop(endDropZone);
+
+    const titles = screen.getAllByText(/정산 결과 안내|세탁기 필터 교체 안내|분리수거 안내/).map((el) => el.textContent);
+    expect(titles).toEqual(["세탁기 필터 교체 안내", "분리수거 안내", "정산 결과 안내"]);
   });
 });

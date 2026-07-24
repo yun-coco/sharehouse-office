@@ -77,6 +77,19 @@ export function AnnouncementSection() {
     setDragId(null);
   };
 
+  const moveToEnd = () => {
+    if (!dragId) return;
+    setAnnouncements((prev) => {
+      const arr = [...prev];
+      const from = arr.findIndex((a) => a.id === dragId);
+      if (from === -1) return prev;
+      const [moved] = arr.splice(from, 1);
+      arr.push(moved);
+      return arr;
+    });
+    setDragId(null);
+  };
+
   const pendingDeleteItem = announcements.find((a) => a.id === pendingDeleteId);
 
   return (
@@ -99,6 +112,7 @@ export function AnnouncementSection() {
         {announcements.map((a) => (
           <div
             key={a.id}
+            data-testid={`announcement-row-${a.id}`}
             draggable
             onDragStart={() => setDragId(a.id)}
             onDragOver={(e) => e.preventDefault()}
@@ -140,6 +154,13 @@ export function AnnouncementSection() {
             )}
           </div>
         ))}
+
+        <div
+          data-testid="announcement-end-drop-zone"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={moveToEnd}
+          className="h-1.5"
+        />
 
         {adding && (
           <div className="flex flex-col gap-2 rounded-2xl border border-[#e3e1db] bg-[#fafaf8] p-3.5 px-4">
