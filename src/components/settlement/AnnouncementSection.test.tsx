@@ -61,4 +61,20 @@ describe("AnnouncementSection", () => {
     await userEvent.click(editButtons[1]);
     expect(await screen.findByText("작성중인 공지사항이 있어요!")).toBeInTheDocument();
   });
+
+  it("공지사항 편집 중 다른 공지사항 수정 시도로 경고 모달이 뜨면, 편집 중인 항목의 '취소'/'저장' 아이콘 버튼과 모달의 취소/확인 버튼이 각각 유일하게 조회된다", async () => {
+    render(<AnnouncementSection />);
+    const editButtons = screen.getAllByRole("button", { name: "공지사항 수정" });
+    await userEvent.click(editButtons[0]);
+    await userEvent.click(editButtons[1]);
+    expect(await screen.findByText("작성중인 공지사항이 있어요!")).toBeInTheDocument();
+
+    // 편집 중인 항목의 인라인 저장/취소 아이콘 버튼이 모달과 함께 여전히 렌더링되어 있어야 한다.
+    expect(screen.getAllByRole("button", { name: "저장" })).toHaveLength(1);
+    expect(screen.getAllByRole("button", { name: "취소" })).toHaveLength(1);
+
+    // 모달의 확인/취소 버튼은 인라인 편집 폼의 버튼과 접근성 이름이 겹치지 않아야 한다.
+    expect(screen.getByRole("button", { name: "확인" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "편집 경고 확인 취소" })).toBeInTheDocument();
+  });
 });

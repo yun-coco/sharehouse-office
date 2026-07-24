@@ -201,6 +201,7 @@ export function AnnouncementSection() {
         title="공지사항을 삭제할까요?"
         description={`'${pendingDeleteItem?.text.slice(0, 10) ?? ""}${(pendingDeleteItem?.text.length ?? 0) > 10 ? "..." : ""}' 공지사항이 삭제돼요.`}
         confirmLabel="삭제"
+        cancelAriaLabel="공지사항 삭제 취소"
         onConfirm={confirmDelete}
         onCancel={() => setPendingDeleteId(null)}
         danger
@@ -213,6 +214,7 @@ export function AnnouncementSection() {
         title="작성중인 공지사항이 있어요!"
         description="저장 혹은 취소 후 다음 작업을 진행해주세요."
         confirmLabel="확인"
+        cancelAriaLabel="편집 경고 확인 취소"
         onConfirm={() => setShowUnsavedAlert(false)}
         onCancel={() => setShowUnsavedAlert(false)}
       />

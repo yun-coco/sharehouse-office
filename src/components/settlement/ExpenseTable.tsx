@@ -360,6 +360,7 @@ export function ExpenseTable() {
         title="지출 항목을 삭제할까요?"
         description={`'${pendingDeleteItem?.category ?? ""}' 항목이 이번달 관리비 지출 내역에서 삭제돼요.`}
         confirmLabel="삭제"
+        cancelAriaLabel="관리비 항목 삭제 취소"
         onConfirm={confirmDelete}
         onCancel={() => setPendingDeleteId(null)}
         danger
@@ -389,6 +390,7 @@ export function ExpenseTable() {
         open={previewCategory !== null}
         title={`${previewCategory ?? ""} 영수증`}
         confirmLabel="닫기"
+        cancelAriaLabel="영수증 미리보기 닫기 취소"
         onConfirm={() => setPreviewCategory(null)}
         onCancel={() => setPreviewCategory(null)}
       />
@@ -398,6 +400,7 @@ export function ExpenseTable() {
         title="작성중인 행이 있어요!"
         description="저장 혹은 취소 후 다음 작업을 진행해주세요."
         confirmLabel="확인"
+        cancelAriaLabel="편집 경고 확인 취소"
         onConfirm={() => setShowUnsavedAlert(false)}
         onCancel={() => setShowUnsavedAlert(false)}
       />

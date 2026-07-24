@@ -59,4 +59,21 @@ describe("ExpenseTable", () => {
     await userEvent.click(editButtons[1]);
     expect(await screen.findByText("작성중인 행이 있어요!")).toBeInTheDocument();
   });
+
+  it("행 편집 중 다른 행 수정 시도로 경고 모달이 뜨면, 편집 중인 행의 '취소'/'저장' 아이콘 버튼과 모달의 취소/확인 버튼이 각각 유일하게 조회된다", async () => {
+    render(<ExpenseTable />);
+    const editButtons = screen.getAllByRole("button", { name: "관리비 항목 수정" });
+    await userEvent.click(editButtons[0]);
+    await userEvent.click(editButtons[1]);
+    expect(await screen.findByText("작성중인 행이 있어요!")).toBeInTheDocument();
+
+    // 편집 중인 행의 인라인 저장/취소 아이콘 버튼이 모달과 함께 여전히 렌더링되어 있어야 한다.
+    // (데스크톱 테이블/모바일 카드 두 레이아웃이 동시에 DOM에 존재하므로 각 2개씩 나온다.)
+    expect(screen.getAllByRole("button", { name: "저장" })).toHaveLength(2);
+    expect(screen.getAllByRole("button", { name: "취소" })).toHaveLength(2);
+
+    // 모달의 확인/취소 버튼은 인라인 편집 폼의 버튼과 접근성 이름이 겹치지 않아야 한다.
+    expect(screen.getByRole("button", { name: "확인" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "편집 경고 확인 취소" })).toBeInTheDocument();
+  });
 });
