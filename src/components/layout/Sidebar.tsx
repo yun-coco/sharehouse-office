@@ -6,7 +6,7 @@ interface SidebarProps {
 
 /** 사이드바. "입주자 관리" 링크는 UI로만 존재하고 클릭 동작 없음(이번 이식 범위 밖 화면). */
 export function Sidebar({ open, onToggle, variant }: SidebarProps) {
-  const toggleLabel = open ? "메뉴 닫기" : "메뉴 열기";
+  const toggleLabel = open ? "사이드바 닫기" : "사이드바 열기";
 
   const content = (
     <div className="flex h-full w-[230px] flex-shrink-0 flex-col gap-0.5 bg-[#fbfbfa] px-3.5 pt-3 pb-6">

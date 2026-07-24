@@ -11,4 +11,13 @@ describe("SettlementPage", () => {
     expect(screen.getByText("💵 이번달 관리비")).toBeInTheDocument();
     expect(screen.getByText("🧾 입주자별 관리비")).toBeInTheDocument();
   });
+
+  it("헤더의 메뉴 토글과 사이드바의 메뉴 토글이 서로 다른 접근성 이름을 갖는다", async () => {
+    const ui = await Page({ params: Promise.resolve({ yearMonth: "2026-07" }) });
+    render(ui);
+    // 초기 상태(sidebarOpen=false)에서 헤더 햄버거 버튼은 "사이드바 메뉴 열기",
+    // 데스크톱 Sidebar 자체 토글 버튼은 "사이드바 열기"로 이름이 겹치지 않아야 한다.
+    expect(screen.getByRole("button", { name: "사이드바 메뉴 열기" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "사이드바 열기" })).toBeInTheDocument();
+  });
 });

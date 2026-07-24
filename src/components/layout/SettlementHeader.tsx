@@ -30,7 +30,7 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
     <div className="flex flex-wrap items-center gap-4 border-b border-[#e3e1db] bg-white px-6 py-4 lg:px-6">
       <button
         type="button"
-        aria-label="메뉴 열기"
+        aria-label="사이드바 메뉴 열기"
         onClick={onMenuToggle}
         className="flex min-h-[44px] min-w-[44px] items-center justify-center border-none bg-transparent text-2xl text-[#6b6b62] lg:hidden"
       >

@@ -25,7 +25,7 @@ describe("Sidebar", () => {
   it("햄버거 버튼 클릭 시 onToggle이 호출된다", async () => {
     const onToggle = vi.fn();
     render(<Sidebar open={true} onToggle={onToggle} variant="desktop" />);
-    await userEvent.click(screen.getByRole("button", { name: /메뉴/ }));
+    await userEvent.click(screen.getByRole("button", { name: /사이드바/ }));
     expect(onToggle).toHaveBeenCalledOnce();
   });
 });
