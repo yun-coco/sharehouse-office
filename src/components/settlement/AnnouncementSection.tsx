@@ -17,6 +17,7 @@ export function AnnouncementSection() {
   const [warning, setWarning] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
 
   const showWarning = (msg: string) => {
     setWarning(msg);
@@ -24,6 +25,10 @@ export function AnnouncementSection() {
   };
 
   const openAdd = () => {
+    if (adding || editingId) {
+      setShowUnsavedAlert(true);
+      return;
+    }
     setAdding(true);
     setEditingId(null);
     setTitle("");
@@ -31,6 +36,10 @@ export function AnnouncementSection() {
   };
 
   const startEdit = (a: Announcement) => {
+    if ((adding || editingId) && editingId !== a.id) {
+      setShowUnsavedAlert(true);
+      return;
+    }
     setEditingId(a.id);
     setAdding(false);
     setTitle(a.title);
@@ -198,6 +207,15 @@ export function AnnouncementSection() {
       />
 
       {warning && <ToastStack toasts={[{ id: "warn", message: warning, variant: "warning" }]} />}
+
+      <Modal
+        open={showUnsavedAlert}
+        title="작성중인 공지사항이 있어요!"
+        description="저장 혹은 취소 후 다음 작업을 진행해주세요."
+        confirmLabel="확인"
+        onConfirm={() => setShowUnsavedAlert(false)}
+        onCancel={() => setShowUnsavedAlert(false)}
+      />
     </div>
   );
 }

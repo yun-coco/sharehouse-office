@@ -45,4 +45,18 @@ describe("ExpenseTable", () => {
     await userEvent.click(screen.getByRole("link", { name: "실행취소" }));
     expect(screen.getAllByText("가스비").length).toBeGreaterThan(0);
   });
+
+  it("'📎 첨부됨' 클릭 시 영수증 미리보기 모달이 뜬다", async () => {
+    render(<ExpenseTable />);
+    await userEvent.click(screen.getAllByText("📎 첨부됨")[0]);
+    expect(screen.getByText("가스비 영수증")).toBeInTheDocument();
+  });
+
+  it("한 행을 편집 중일 때 다른 행 수정을 시도하면 경고가 뜨고 편집 대상이 바뀌지 않는다", async () => {
+    render(<ExpenseTable />);
+    const editButtons = screen.getAllByRole("button", { name: "관리비 항목 수정" });
+    await userEvent.click(editButtons[0]);
+    await userEvent.click(editButtons[1]);
+    expect(await screen.findByText("작성중인 행이 있어요!")).toBeInTheDocument();
+  });
 });

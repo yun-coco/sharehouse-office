@@ -53,4 +53,12 @@ describe("AnnouncementSection", () => {
     const titles = screen.getAllByText(/정산 결과 안내|세탁기 필터 교체 안내|분리수거 안내/).map((el) => el.textContent);
     expect(titles).toEqual(["세탁기 필터 교체 안내", "분리수거 안내", "정산 결과 안내"]);
   });
+
+  it("한 공지사항을 편집 중일 때 다른 공지사항 수정을 시도하면 경고가 뜬다", async () => {
+    render(<AnnouncementSection />);
+    const editButtons = screen.getAllByRole("button", { name: "공지사항 수정" });
+    await userEvent.click(editButtons[0]);
+    await userEvent.click(editButtons[1]);
+    expect(await screen.findByText("작성중인 공지사항이 있어요!")).toBeInTheDocument();
+  });
 });

@@ -39,6 +39,8 @@ export function ExpenseTable() {
   const [warning, setWarning] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [undoToast, setUndoToast] = useState<{ item: MaintenanceFeeItem; index: number; message: string } | null>(null);
+  const [previewCategory, setPreviewCategory] = useState<string | null>(null);
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
 
   const showWarning = (msg: string) => {
     setWarning(msg);
@@ -48,12 +50,20 @@ export function ExpenseTable() {
   const usedCategories = new Set(expenses.filter((e) => e.id !== editingId).map((e) => e.category));
 
   const openAdd = () => {
+    if (showForm) {
+      setShowUnsavedAlert(true);
+      return;
+    }
     setShowForm(true);
     setEditingId(null);
     setDraft(EMPTY_DRAFT);
   };
 
   const startEdit = (item: MaintenanceFeeItem) => {
+    if (showForm && editingId !== item.id) {
+      setShowUnsavedAlert(true);
+      return;
+    }
     setShowForm(true);
     setEditingId(item.id);
     setDraft({
@@ -257,7 +267,14 @@ export function ExpenseTable() {
                     <td className="p-2.5 text-right font-semibold text-[#1a1a1a]">{formatWon(e.amount)}</td>
                     <td className="p-2.5 text-left text-[#6b6b62]">{e.memo || "-"}</td>
                     <td className="p-2.5 text-center">
-                      {e.receiptState === "uploaded" && <span className="cursor-pointer text-[#2f6f52] underline">📎 첨부됨</span>}
+                      {e.receiptState === "uploaded" && (
+                        <span
+                          onClick={() => setPreviewCategory(e.category)}
+                          className="cursor-pointer text-[#2f6f52] underline"
+                        >
+                          📎 첨부됨
+                        </span>
+                      )}
                       {e.receiptState === "error" && <span className="text-[#c0433a]">업로드 실패</span>}
                       {e.receiptState === "none" && <span className="text-[#a8a89c]">-</span>}
                     </td>
@@ -309,7 +326,14 @@ export function ExpenseTable() {
                     {e.memo && <div className="text-xs text-[#6b6b62]">{e.memo}</div>}
                     <div className="mt-2 flex items-baseline justify-between">
                       <span>
-                        {e.receiptState === "uploaded" && <span className="text-xs text-[#2f6f52] underline">📎 첨부됨</span>}
+                        {e.receiptState === "uploaded" && (
+                          <span
+                            onClick={() => setPreviewCategory(e.category)}
+                            className="cursor-pointer text-xs text-[#2f6f52] underline"
+                          >
+                            📎 첨부됨
+                          </span>
+                        )}
                         {e.receiptState === "error" && <span className="text-[11.5px] text-[#c0433a]">업로드 실패</span>}
                         {e.receiptState === "none" && <span className="text-[11.5px] text-[#a8a89c]">영수증 없음</span>}
                       </span>
@@ -360,6 +384,23 @@ export function ExpenseTable() {
           </div>
         </div>
       )}
+
+      <Modal
+        open={previewCategory !== null}
+        title={`${previewCategory ?? ""} 영수증`}
+        confirmLabel="닫기"
+        onConfirm={() => setPreviewCategory(null)}
+        onCancel={() => setPreviewCategory(null)}
+      />
+
+      <Modal
+        open={showUnsavedAlert}
+        title="작성중인 행이 있어요!"
+        description="저장 혹은 취소 후 다음 작업을 진행해주세요."
+        confirmLabel="확인"
+        onConfirm={() => setShowUnsavedAlert(false)}
+        onCancel={() => setShowUnsavedAlert(false)}
+      />
     </div>
   );
 }
