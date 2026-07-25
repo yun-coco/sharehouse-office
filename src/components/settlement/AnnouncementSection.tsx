@@ -85,7 +85,8 @@ export function AnnouncementSection() {
     const item = announcements[idx];
     setAnnouncements((prev) => prev.filter((a) => a.id !== pendingDeleteId));
     setPendingDeleteId(null);
-    setUndoToast({ item, index: idx, message: `'${item.title}' 공지사항을 삭제했어요.` });
+    const textSnippet = item.text.slice(0, 10) + (item.text.length > 10 ? "..." : "");
+    setUndoToast({ item, index: idx, message: `공지사항 '${textSnippet}' 항목을 삭제했어요.` });
     setTimeout(() => setUndoToast(null), 3000);
   };
   const undoDelete = () => {

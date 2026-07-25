@@ -33,6 +33,8 @@ export function DateRangePopover({
   const firstDow = new Date(year, month - 1, 1).getDay();
   const daysInMonth = new Date(year, month, 0).getDate();
 
+  const todayStr = new Date().toISOString().slice(0, 10);
+
   const cells: { day: number; dateStr: string | null }[] = [];
   for (let i = 0; i < firstDow; i++) cells.push({ day: 0, dateStr: null });
   for (let d = 1; d <= daysInMonth; d++) {
@@ -106,7 +108,11 @@ export function DateRangePopover({
                       setOpen(false);
                     }}
                     className={`rounded-lg py-1.5 text-center text-[12.5px] ${
-                      c.dateStr === value ? "bg-[#2f6f52] font-bold text-white" : "cursor-pointer text-[#37352f]"
+                      c.dateStr === value
+                        ? "bg-[#2f6f52] font-bold text-white"
+                        : c.dateStr === todayStr
+                          ? "cursor-pointer border border-[#b7b5aa] font-semibold text-[#1a1a1a]"
+                          : "cursor-pointer text-[#37352f]"
                     }`}
                   >
                     {c.day}

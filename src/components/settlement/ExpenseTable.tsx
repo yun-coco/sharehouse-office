@@ -21,6 +21,15 @@ import {
 
 const ALL_CATEGORIES: MaintenanceFeeCategory[] = ["가스비", "전기세", "수도세", "인터넷", "공용물품"];
 
+function sortExpenses(items: MaintenanceFeeItem[]): MaintenanceFeeItem[] {
+  return [...items].sort((a, b) => {
+    const ca = ALL_CATEGORIES.indexOf(a.category);
+    const cb = ALL_CATEGORIES.indexOf(b.category);
+    if (ca !== cb) return ca - cb;
+    return a.startDate.localeCompare(b.startDate);
+  });
+}
+
 interface DraftExpense {
   category: MaintenanceFeeCategory | "";
   startDate: string;
@@ -112,7 +121,9 @@ export function ExpenseTable() {
       memo: draft.memo,
       receiptState: draft.receiptState,
     };
-    setExpenses((prev) => (editingId ? prev.map((e) => (e.id === editingId ? payload : e)) : [...prev, payload]));
+    setExpenses((prev) =>
+      sortExpenses(editingId ? prev.map((e) => (e.id === editingId ? payload : e)) : [...prev, payload]),
+    );
     closeForm();
   };
 
@@ -384,7 +395,7 @@ export function ExpenseTable() {
                     <td className="p-2.5 text-center text-[#37352f]">{formatDate(e.startDate)}</td>
                     <td className="p-2.5 text-center text-[#37352f]">{formatDate(e.endDate)}</td>
                     <td className="p-2.5 text-right font-semibold text-[#1a1a1a]">{formatWon(e.amount)}</td>
-                    <td className="p-2.5 text-left text-[#6b6b62]">{e.memo || "-"}</td>
+                    <td className="p-2.5 text-left text-[#6b6b62]">{e.memo}</td>
                     <td className="p-2.5 text-center">
                       {e.receiptState === "uploaded" && (
                         <span
