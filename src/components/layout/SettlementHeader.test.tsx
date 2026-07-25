@@ -24,6 +24,21 @@ describe("SettlementHeader", () => {
     expect(screen.getByRole("button", { name: "정산 결과 발송" })).not.toBeDisabled();
   });
 
+  it("게시 전에는 게시 버튼에 테두리만 있는 빈 점(dot)이 표시된다", () => {
+    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    const dot = screen.getByTestId("publish-dot");
+    expect(dot.className).toMatch(/border/);
+    expect(dot.className).not.toMatch(/bg-\[#2f6f52\]/);
+  });
+
+  it("게시 후에는 게시 버튼에 채워진 초록 점(dot)이 표시된다", async () => {
+    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    await userEvent.click(screen.getByRole("button", { name: "게시하기 전" }));
+    await userEvent.click(screen.getByRole("button", { name: "게시하기" }));
+    const dot = screen.getByTestId("publish-dot");
+    expect(dot.className).toMatch(/bg-\[#2f6f52\]/);
+  });
+
   it("게시 후 발송 확인 모달에서 확인하면 '발송 완료'로 바뀐다", async () => {
     render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
     await userEvent.click(screen.getByRole("button", { name: "게시하기 전" }));

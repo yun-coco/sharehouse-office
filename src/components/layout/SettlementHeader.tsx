@@ -77,6 +77,12 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
           published ? "bg-[#eaf2ee] text-[#2f6f52]" : "bg-[#2f6f52] text-white"
         }`}
       >
+        <span
+          data-testid="publish-dot"
+          className={`inline-block h-[7px] w-[7px] flex-shrink-0 rounded-full ${
+            published ? "bg-[#2f6f52]" : "border-[1.5px] border-current opacity-60"
+          }`}
+        />
         {published ? "게시 중" : "게시하기 전"}
       </button>
       <div
@@ -134,6 +140,11 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
                 onClick={menuPublishClick}
                 className="flex cursor-pointer items-center gap-1.5 rounded-md border-none bg-transparent px-3 py-2.5 text-left text-[13px] font-semibold text-[#37352f]"
               >
+                <span
+                  className={`inline-block h-[7px] w-[7px] flex-shrink-0 rounded-full ${
+                    published ? "bg-[#2f6f52]" : "border-[1.5px] border-current opacity-60"
+                  }`}
+                />
                 {published ? "게시 중" : "게시하기 전"}
               </button>
               <button
