@@ -6,15 +6,18 @@ import { Modal } from "@/components/ui/Modal";
 
 interface SettlementHeaderProps {
   monthLabel: string;
-  onMenuToggle: () => void;
 }
 
 const MONTH_LABELS = ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09"].map(
   (m) => `${Number(m.slice(0, 4))}년 ${Number(m.slice(5))}월`,
 );
 
-/** 정산월 헤더: 게시/발송 상태는 이 컴포넌트 로컬 state로만 시뮬레이션한다(Supabase 미연동). */
-export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderProps) {
+/**
+ * 정산월 헤더: 게시/발송 상태는 이 컴포넌트 로컬 state로만 시뮬레이션한다(Supabase 미연동).
+ * 햄버거 메뉴 토글은 이 컴포넌트가 아니라 Sidebar 자체가 담당한다(원본 구조: 숨김 상태일 때
+ * 페이지 최상단에 뜨는 플로팅 버튼, 열림 상태일 때 사이드바 내부 버튼 — 헤더에는 없음).
+ */
+export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
   const [published, setPublished] = useState(false);
   const [sent, setSent] = useState(false);
   const [showPublishConfirm, setShowPublishConfirm] = useState(false);
@@ -43,14 +46,6 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
 
   return (
     <div className="flex flex-wrap items-center gap-4 border-b border-[#e3e1db] bg-white px-6 py-4 lg:px-6">
-      <button
-        type="button"
-        aria-label="사이드바 메뉴 열기"
-        onClick={onMenuToggle}
-        className="flex min-h-[44px] min-w-[44px] items-center justify-center border-none bg-transparent text-2xl text-[#6b6b62] lg:hidden"
-      >
-        ☰
-      </button>
       <div className="text-2xl font-bold whitespace-nowrap text-[#1a1a1a]">관리비 정산</div>
       <select
         defaultValue={monthLabel}

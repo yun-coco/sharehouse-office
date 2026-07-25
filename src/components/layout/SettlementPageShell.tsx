@@ -16,7 +16,7 @@ export function SettlementPageShell({ monthLabel, children }: SettlementPageShel
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="relative flex min-h-screen">
+    <div className="relative flex h-screen">
       <LoginGate visible={false} />
       <div className="hidden lg:block">
         <Sidebar open={sidebarOpen} onToggle={() => setSidebarOpen((o) => !o)} variant="desktop" />
@@ -28,7 +28,7 @@ export function SettlementPageShell({ monthLabel, children }: SettlementPageShel
         <Sidebar open={sidebarOpen} onToggle={() => setSidebarOpen((o) => !o)} variant="overlay" />
       </div>
       <div className="flex min-w-0 flex-1 flex-col bg-white">
-        <SettlementHeader monthLabel={monthLabel} onMenuToggle={() => setSidebarOpen((o) => !o)} />
+        <SettlementHeader monthLabel={monthLabel} />
         <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
           <ScrollContainerProvider value={scrollRef}>{children}</ScrollContainerProvider>
         </div>

@@ -5,19 +5,19 @@ import { SettlementHeader } from "./SettlementHeader";
 
 describe("SettlementHeader", () => {
   it("초기 상태에서 '게시하기 전' 배지와 비활성 발송 버튼을 보여준다", () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     expect(screen.getByText("게시하기 전")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "정산 결과 발송" })).toBeDisabled();
   });
 
   it("게시 전 발송 버튼 클릭 시 '게시 후 발송할 수 있습니다' 안내가 뜬다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "정산 결과 발송" }));
     expect(await screen.findByText("게시 후 발송할 수 있습니다")).toBeInTheDocument();
   });
 
   it("게시 버튼 클릭 → 확인 모달에서 확인 누르면 '게시 중' 상태로 바뀐다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "게시하기 전" }));
     await userEvent.click(screen.getByRole("button", { name: "게시하기" }));
     expect(screen.getByText("게시 중")).toBeInTheDocument();
@@ -25,14 +25,14 @@ describe("SettlementHeader", () => {
   });
 
   it("게시 전에는 게시 버튼에 테두리만 있는 빈 점(dot)이 표시된다", () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     const dot = screen.getByTestId("publish-dot");
     expect(dot.className).toMatch(/border/);
     expect(dot.className).not.toMatch(/bg-\[#2f6f52\]/);
   });
 
   it("게시 후에는 게시 버튼에 채워진 초록 점(dot)이 표시된다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "게시하기 전" }));
     await userEvent.click(screen.getByRole("button", { name: "게시하기" }));
     const dot = screen.getByTestId("publish-dot");
@@ -40,7 +40,7 @@ describe("SettlementHeader", () => {
   });
 
   it("게시 후 발송 확인 모달에서 확인하면 '발송 완료'로 바뀐다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "게시하기 전" }));
     await userEvent.click(screen.getByRole("button", { name: "게시하기" }));
     await userEvent.click(screen.getByRole("button", { name: "정산 결과 발송" }));
@@ -49,7 +49,7 @@ describe("SettlementHeader", () => {
   });
 
   it("발송 확인 모달에 프로토타입 안내 문구가 포함된다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "게시하기 전" }));
     await userEvent.click(screen.getByRole("button", { name: "게시하기" }));
     await userEvent.click(screen.getByRole("button", { name: "정산 결과 발송" }));
@@ -59,7 +59,7 @@ describe("SettlementHeader", () => {
   });
 
   it("월 선택 드롭다운에 2026년 5월~9월 옵션이 모두 존재한다", () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     const select = screen.getByRole("combobox");
     const optionLabels = Array.from(select.querySelectorAll("option")).map((o) => o.textContent);
     expect(optionLabels).toEqual([
@@ -72,7 +72,7 @@ describe("SettlementHeader", () => {
   });
 
   it("모바일 화면에서는 '더 보기' 버튼을 눌러 입주자용 페이지 이동/게시/발송 액션 메뉴를 연다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "더 보기" }));
     expect(screen.getAllByText("입주자용 페이지로 이동").length).toBeGreaterThan(0);
     expect(screen.getAllByText("게시하기 전").length).toBeGreaterThan(1);
@@ -80,7 +80,7 @@ describe("SettlementHeader", () => {
   });
 
   it("더 보기 메뉴에서 게시 액션을 클릭하면 메뉴가 닫히고 게시 확인 모달이 뜬다", async () => {
-    render(<SettlementHeader monthLabel="2026년 7월" onMenuToggle={() => {}} />);
+    render(<SettlementHeader monthLabel="2026년 7월" />);
     await userEvent.click(screen.getByRole("button", { name: "더 보기" }));
     const publishItemsBeforeClose = screen.getAllByText("게시하기 전");
     expect(publishItemsBeforeClose.length).toBeGreaterThan(1);

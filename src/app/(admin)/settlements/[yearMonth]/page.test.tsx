@@ -12,14 +12,13 @@ describe("SettlementPage", () => {
     expect(screen.getByText("🧾 입주자별 관리비")).toBeInTheDocument();
   });
 
-  it("헤더의 메뉴 토글과 사이드바의 메뉴 토글이 서로 다른 접근성 이름을 갖는다", async () => {
+  it("헤더에는 별도 햄버거 버튼이 없고, 사이드바 토글은 Sidebar 자체 버튼(desktop/tablet/overlay variant 각각, CSS breakpoint로 노출 제어)만 존재한다", async () => {
     const ui = await Page({ params: Promise.resolve({ yearMonth: "2026-07" }) });
     render(ui);
-    // 초기 상태(sidebarOpen=false)에서 헤더 햄버거 버튼은 "사이드바 메뉴 열기",
-    // Sidebar 자체 토글 버튼(desktop/tablet/overlay 세 variant가 모두 DOM에 존재하며
-    // CSS breakpoint로 노출을 제어하므로, 닫힌 상태의 플로팅 햄버거도 3개 존재)은
-    // "사이드바 열기"로 헤더 버튼과 이름이 겹치지 않아야 한다.
-    expect(screen.getByRole("button", { name: "사이드바 메뉴 열기" })).toBeInTheDocument();
+    // 원본 구조: 헤더 자체에는 햄버거가 없고, 숨김 상태의 플로팅 버튼과 열림 상태의
+    // 사이드바 내부 버튼 모두 Sidebar 컴포넌트가 전담한다. 초기 상태(닫힘)에서
+    // desktop/tablet/overlay 세 variant가 각자의 플로팅 "사이드바 열기" 버튼을
+    // 동시에 DOM에 렌더링하므로(브레이크포인트별로 하나만 실제 보임) 최소 1개 이상 존재해야 한다.
     expect(screen.getAllByRole("button", { name: "사이드바 열기" }).length).toBeGreaterThan(0);
   });
 });

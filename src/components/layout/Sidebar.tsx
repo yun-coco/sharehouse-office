@@ -64,7 +64,7 @@ export function Sidebar({ open, onToggle, variant }: SidebarProps) {
   );
 
   if (variant === "desktop") {
-    return <div className="border-r border-[#edece9]">{content}</div>;
+    return <div className="h-full border-r border-[#edece9]">{content}</div>;
   }
 
   const backdropClass = variant === "tablet" ? "bg-transparent" : "bg-[rgba(20,22,18,0.45)]";
