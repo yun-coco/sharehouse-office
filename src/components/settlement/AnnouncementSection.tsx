@@ -136,7 +136,7 @@ export function AnnouncementSection() {
   const pendingDeleteItem = announcements.find((a) => a.id === pendingDeleteId);
 
   return (
-    <div className="border-b border-[#edece9] pb-6">
+    <div className="border-b border-[#edece9] pb-4">
       <div
         ref={headerRef}
         data-testid="announcement-header"

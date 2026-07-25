@@ -59,7 +59,7 @@ export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
   );
 
   return (
-    <div>
+    <div className="pb-2">
       <div
         ref={headerRef}
         data-testid="tenant-header"

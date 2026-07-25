@@ -18,7 +18,7 @@ export default async function SettlementPage({
 
   return (
     <SettlementPageShell monthLabel={monthLabel(yearMonth)}>
-      <div className="flex flex-col gap-7 px-6 py-6">
+      <div className="flex flex-col gap-[18px] px-[25px] pb-8">
         <AnnouncementSection />
         <ExpenseTable />
         <TenantFeeTable />
