@@ -22,6 +22,35 @@ describe("Sidebar", () => {
     expect(onToggle).toHaveBeenCalledOnce();
   });
 
+  it("variant='overlay'는 배경이 어둡게 dimmed 처리되고 너비가 50%다 (모바일 드로어)", () => {
+    render(<Sidebar open={true} onToggle={() => {}} variant="overlay" />);
+    const backdrop = screen.getByTestId("sidebar-backdrop");
+    expect(backdrop.className).toMatch(/bg-\[rgba\(20,22,18,0\.45\)\]/);
+    const drawer = screen.getByTestId("sidebar-drawer");
+    expect(drawer.className).toMatch(/w-1\/2/);
+  });
+
+  it("variant='tablet'이고 open=false면 렌더링하지 않는다", () => {
+    render(<Sidebar open={false} onToggle={() => {}} variant="tablet" />);
+    expect(screen.queryByText("관리비 정산")).not.toBeInTheDocument();
+  });
+
+  it("variant='tablet'은 배경이 투명하고(dimmed 아님) 너비가 230px 고정이다", () => {
+    render(<Sidebar open={true} onToggle={() => {}} variant="tablet" />);
+    const backdrop = screen.getByTestId("sidebar-backdrop");
+    expect(backdrop.className).toMatch(/bg-transparent/);
+    expect(backdrop.className).not.toMatch(/rgba/);
+    const drawer = screen.getByTestId("sidebar-drawer");
+    expect(drawer.className).toMatch(/w-\[230px\]/);
+  });
+
+  it("variant='tablet'이고 open=true면 투명 백드롭 클릭 시 onToggle이 호출된다", async () => {
+    const onToggle = vi.fn();
+    render(<Sidebar open={true} onToggle={onToggle} variant="tablet" />);
+    await userEvent.click(screen.getByTestId("sidebar-backdrop"));
+    expect(onToggle).toHaveBeenCalledOnce();
+  });
+
   it("햄버거 버튼 클릭 시 onToggle이 호출된다", async () => {
     const onToggle = vi.fn();
     render(<Sidebar open={true} onToggle={onToggle} variant="desktop" />);
