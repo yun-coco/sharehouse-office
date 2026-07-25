@@ -18,7 +18,9 @@ export function SettlementPageShell({ monthLabel, children }: SettlementPageShel
   return (
     <div className="relative flex min-h-screen">
       <LoginGate visible={false} />
-      <Sidebar open={sidebarOpen} onToggle={() => setSidebarOpen((o) => !o)} variant="desktop" />
+      <div className="hidden lg:block">
+        <Sidebar open={sidebarOpen} onToggle={() => setSidebarOpen((o) => !o)} variant="desktop" />
+      </div>
       <div className="hidden md:block lg:hidden">
         <Sidebar open={sidebarOpen} onToggle={() => setSidebarOpen((o) => !o)} variant="tablet" />
       </div>

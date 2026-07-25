@@ -6,11 +6,28 @@ interface SidebarProps {
 
 /**
  * 사이드바. "입주자 관리" 링크는 UI로만 존재하고 클릭 동작 없음(이번 이식 범위 밖 화면).
- * variant: desktop(lg 이상, 상시 노출) / tablet(md~lg, 투명 배경 오버레이) / overlay(md 미만 모바일, 어두운 배경 50% 폭 드로어).
+ * variant: desktop(lg 이상, 상시 노출 자리) / tablet(md~lg, 투명 배경 오버레이) / overlay(md 미만 모바일, 어두운 배경 50% 폭 드로어).
+ * open=false면 세 variant 모두 사이드바 본문이 사라지고, 같은 위치에 플로팅 햄버거 버튼만 남는다
+ * (원본의 sidebarHidden 상태 — 데스크톱도 예외 없이 숨김 가능).
  */
 export function Sidebar({ open, onToggle, variant }: SidebarProps) {
   const toggleLabel = open ? "사이드바 닫기" : "사이드바 열기";
   const isFixedWidth = variant === "desktop" || variant === "tablet";
+
+  if (!open) {
+    return (
+      <div className="absolute top-3 left-2.5 z-40">
+        <button
+          type="button"
+          aria-label={toggleLabel}
+          onClick={onToggle}
+          className="flex min-h-[44px] min-w-[44px] items-center justify-center border-none bg-transparent text-2xl text-[#6b6b62]"
+        >
+          ☰
+        </button>
+      </div>
+    );
+  }
 
   const content = (
     <div
@@ -47,19 +64,20 @@ export function Sidebar({ open, onToggle, variant }: SidebarProps) {
   );
 
   if (variant === "desktop") {
-    return <div className="hidden border-r border-[#edece9] lg:block">{content}</div>;
+    return <div className="border-r border-[#edece9]">{content}</div>;
   }
-
-  if (!open) return null;
 
   const backdropClass = variant === "tablet" ? "bg-transparent" : "bg-[rgba(20,22,18,0.45)]";
   const drawerWidthClass = variant === "tablet" ? "w-[230px]" : "w-1/2";
+  const drawerPositionClass = variant === "tablet" ? "absolute top-0 left-0 shadow-[2px_0_16px_rgba(0,0,0,0.18)]" : "";
 
   return (
     <div className={`fixed inset-0 z-40 ${backdropClass}`} data-testid="sidebar-backdrop" onClick={onToggle}>
       <div
         data-testid="sidebar-drawer"
-        className={`h-full ${drawerWidthClass} shadow-[2px_0_16px_rgba(0,0,0,0.18)]`}
+        className={`h-full ${drawerWidthClass} ${drawerPositionClass} ${
+          variant === "overlay" ? "shadow-[2px_0_16px_rgba(0,0,0,0.18)]" : ""
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         {content}

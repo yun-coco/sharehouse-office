@@ -16,8 +16,10 @@ describe("SettlementPage", () => {
     const ui = await Page({ params: Promise.resolve({ yearMonth: "2026-07" }) });
     render(ui);
     // 초기 상태(sidebarOpen=false)에서 헤더 햄버거 버튼은 "사이드바 메뉴 열기",
-    // 데스크톱 Sidebar 자체 토글 버튼은 "사이드바 열기"로 이름이 겹치지 않아야 한다.
+    // Sidebar 자체 토글 버튼(desktop/tablet/overlay 세 variant가 모두 DOM에 존재하며
+    // CSS breakpoint로 노출을 제어하므로, 닫힌 상태의 플로팅 햄버거도 3개 존재)은
+    // "사이드바 열기"로 헤더 버튼과 이름이 겹치지 않아야 한다.
     expect(screen.getByRole("button", { name: "사이드바 메뉴 열기" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "사이드바 열기" })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "사이드바 열기" }).length).toBeGreaterThan(0);
   });
 });

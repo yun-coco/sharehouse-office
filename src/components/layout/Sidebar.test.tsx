@@ -57,4 +57,26 @@ describe("Sidebar", () => {
     await userEvent.click(screen.getByRole("button", { name: /사이드바/ }));
     expect(onToggle).toHaveBeenCalledOnce();
   });
+
+  it("variant='desktop'이고 open=false면 사이드바 본문은 사라지고 플로팅 햄버거 버튼만 남는다", async () => {
+    const onToggle = vi.fn();
+    render(<Sidebar open={false} onToggle={onToggle} variant="desktop" />);
+    expect(screen.queryByText("관리비 정산")).not.toBeInTheDocument();
+    expect(screen.queryByText("입주자 관리")).not.toBeInTheDocument();
+    const toggleButton = screen.getByRole("button", { name: "사이드바 열기" });
+    expect(toggleButton).toBeInTheDocument();
+    await userEvent.click(toggleButton);
+    expect(onToggle).toHaveBeenCalledOnce();
+  });
+
+  it("variant='tablet'이고 open=false면 사이드바 본문은 사라지고 플로팅 햄버거 버튼만 남는다", () => {
+    render(<Sidebar open={false} onToggle={() => {}} variant="tablet" />);
+    expect(screen.queryByText("관리비 정산")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "사이드바 열기" })).toBeInTheDocument();
+  });
+
+  it("variant='overlay'(모바일)이고 open=false여도 플로팅 햄버거가 렌더링된다", () => {
+    render(<Sidebar open={false} onToggle={() => {}} variant="overlay" />);
+    expect(screen.getByRole("button", { name: "사이드바 열기" })).toBeInTheDocument();
+  });
 });
