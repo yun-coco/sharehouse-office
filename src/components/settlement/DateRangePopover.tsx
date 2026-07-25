@@ -58,7 +58,7 @@ export function DateRangePopover({
         <>
           <div className="fixed inset-0 z-[150]" onClick={() => setOpen(false)} />
           <div
-            className={`absolute top-[34px] ${anchorClass} z-[200] w-[236px] rounded-2xl bg-white p-4 text-left shadow-[0_20px_50px_rgba(0,0,0,0.25)]`}
+            className={`absolute top-[34px] ${anchorClass} z-[200] w-[236px] rounded-[14px] bg-white p-4 text-left shadow-[0_20px_50px_rgba(0,0,0,0.25)]`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3 flex items-center justify-between">

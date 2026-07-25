@@ -229,7 +229,7 @@ export function ExpenseTable() {
   );
 
   const saveCancelButtons = (
-    <div className="flex items-center justify-center gap-0.5">
+    <div className="flex items-center justify-center gap-[3px]">
       <IconButton icon={Check} label="저장" onClick={save} />
       <IconButton icon={X} label="취소" onClick={closeForm} />
     </div>
@@ -288,19 +288,19 @@ export function ExpenseTable() {
             <table className="pointer-events-none w-full table-fixed border-collapse text-[13px] blur-[3px] opacity-55 select-none">
               <thead>
                 <tr className="border-b border-[#edece9] text-[#9b9a97]">
-                  <th style={{ width: "14%" }} className="p-2 text-center font-semibold">항목</th>
-                  <th style={{ width: "16%" }} className="p-2 text-center font-semibold">시작일/구매일</th>
-                  <th style={{ width: "16%" }} className="p-2 text-center font-semibold">종료일</th>
-                  <th style={{ width: "14%" }} className="p-2 text-center font-semibold">금액</th>
-                  <th style={{ width: "22%" }} className="p-2 text-center font-semibold">메모</th>
-                  <th style={{ width: "12%" }} className="p-2 text-center font-semibold">영수증</th>
-                  <th style={{ width: "6%" }} className="p-2 text-center font-semibold" />
+                  <th style={{ width: "14%" }} className="py-2 px-2.5 text-center font-semibold">항목</th>
+                  <th style={{ width: "16%" }} className="py-2 px-2.5 text-center font-semibold">시작일/구매일</th>
+                  <th style={{ width: "16%" }} className="py-2 px-2.5 text-center font-semibold">종료일</th>
+                  <th style={{ width: "14%" }} className="py-2 px-2.5 text-center font-semibold">금액</th>
+                  <th style={{ width: "22%" }} className="py-2 px-2.5 text-center font-semibold">메모</th>
+                  <th style={{ width: "12%" }} className="py-2 px-2.5 text-center font-semibold">영수증</th>
+                  <th style={{ width: "6%" }} className="py-2 px-2.5 text-center font-semibold" />
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-[#f1f1ef]">
                   <td className="p-2.5 text-center">
-                    <span className="rounded-md bg-[#fdece3] px-2.5 py-1 font-semibold text-[#9a5b2e]">가스비</span>
+                    <span className="rounded-md bg-[#fdece3] px-[9px] py-1 font-semibold text-[#9a5b2e]">가스비</span>
                   </td>
                   <td className="p-2.5 text-center text-[#37352f]">7/1</td>
                   <td className="p-2.5 text-center text-[#37352f]">7/31</td>
@@ -311,7 +311,7 @@ export function ExpenseTable() {
                 </tr>
                 <tr>
                   <td className="p-2.5 text-center">
-                    <span className="rounded-md bg-[#fef6da] px-2.5 py-1 font-semibold text-[#8a6f10]">전기세</span>
+                    <span className="rounded-md bg-[#fef6da] px-[9px] py-1 font-semibold text-[#8a6f10]">전기세</span>
                   </td>
                   <td className="p-2.5 text-center text-[#37352f]">7/1</td>
                   <td className="p-2.5 text-center text-[#37352f]">7/31</td>
@@ -323,7 +323,7 @@ export function ExpenseTable() {
               </tbody>
             </table>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-6 py-3 text-center text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
+              <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-[22px] py-3 text-center text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
                 아직 입력된 관리비 항목이 없어요
               </div>
             </div>
@@ -333,7 +333,7 @@ export function ExpenseTable() {
             <div className="pointer-events-none blur-[3px] opacity-55 select-none">
               <div className="border-b border-[#f1f1ef] py-2.5">
                 <div className="mb-1.5 flex items-center justify-between gap-2">
-                  <span className="rounded-md bg-[#fdece3] px-2.5 py-1 text-[11.5px] font-semibold text-[#9a5b2e]">
+                  <span className="rounded-md bg-[#fdece3] px-[9px] py-1 text-[11.5px] font-semibold text-[#9a5b2e]">
                     가스비
                   </span>
                   <span className="text-sm font-extrabold text-[#1a1a1a]">68,000원</span>
@@ -342,7 +342,7 @@ export function ExpenseTable() {
               </div>
               <div className="py-2.5">
                 <div className="mb-1.5 flex items-center justify-between gap-2">
-                  <span className="rounded-md bg-[#fef6da] px-2.5 py-1 text-[11.5px] font-semibold text-[#8a6f10]">
+                  <span className="rounded-md bg-[#fef6da] px-[9px] py-1 text-[11.5px] font-semibold text-[#8a6f10]">
                     전기세
                   </span>
                   <span className="text-sm font-extrabold text-[#1a1a1a]">92,000원</span>
@@ -350,7 +350,7 @@ export function ExpenseTable() {
               </div>
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-6 py-3 text-center text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
+              <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-[18px] py-2.5 text-center text-xs font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
                 아직 입력된 지출 항목이 없어요
               </div>
             </div>
@@ -361,13 +361,13 @@ export function ExpenseTable() {
           <table className="hidden w-full table-fixed border-collapse text-[13px] md:table">
             <thead>
               <tr className="border-b border-[#edece9] text-[#9b9a97]">
-                <th style={{ width: "14%" }} className="p-2 text-center font-semibold">항목</th>
-                <th style={{ width: "16%" }} className="p-2 text-center font-semibold">시작일/구매일</th>
-                <th style={{ width: "16%" }} className="p-2 text-center font-semibold">종료일</th>
-                <th style={{ width: "14%" }} className="p-2 text-center font-semibold">금액</th>
-                <th style={{ width: "22%" }} className="p-2 text-center font-semibold">메모</th>
-                <th style={{ width: "12%" }} className="p-2 text-center font-semibold">영수증</th>
-                <th style={{ width: "6%" }} className="p-2 text-center font-semibold" />
+                <th style={{ width: "14%" }} className="py-2 px-2.5 text-center font-semibold">항목</th>
+                <th style={{ width: "16%" }} className="py-2 px-2.5 text-center font-semibold">시작일/구매일</th>
+                <th style={{ width: "16%" }} className="py-2 px-2.5 text-center font-semibold">종료일</th>
+                <th style={{ width: "14%" }} className="py-2 px-2.5 text-center font-semibold">금액</th>
+                <th style={{ width: "22%" }} className="py-2 px-2.5 text-center font-semibold">메모</th>
+                <th style={{ width: "12%" }} className="py-2 px-2.5 text-center font-semibold">영수증</th>
+                <th style={{ width: "6%" }} className="py-2 px-2.5 text-center font-semibold" />
               </tr>
             </thead>
             <tbody>
@@ -375,8 +375,8 @@ export function ExpenseTable() {
                 editingId === e.id ? (
                   <tr key={e.id} className="border-b border-[#f1f1ef] bg-[#fafaf8]">
                     <td className="p-1.5 text-center align-middle">{categorySelect}</td>
-                    <td className="relative p-1 text-center align-middle">{startDatePopover}</td>
-                    <td className="relative p-1 text-center align-middle">{endDatePopover}</td>
+                    <td className="relative py-1.5 px-1 text-center align-middle">{startDatePopover}</td>
+                    <td className="relative py-1.5 px-1 text-center align-middle">{endDatePopover}</td>
                     <td className="p-1.5 text-right align-middle">{amountInput}</td>
                     <td className="p-1.5 text-left align-middle">{memoTextarea}</td>
                     <td className="p-1.5 text-center align-middle">{receiptToggleButton}</td>
@@ -386,7 +386,7 @@ export function ExpenseTable() {
                   <tr key={e.id} className="border-b border-[#f1f1ef]">
                     <td className="p-2.5 text-center">
                       <span
-                        className="rounded-md px-2.5 py-1 text-[13px] font-semibold"
+                        className="rounded-md px-[9px] py-1 text-[13px] font-semibold"
                         style={{ background: CATEGORY_META[e.category].bg, color: CATEGORY_META[e.category].color }}
                       >
                         {e.category}
@@ -409,7 +409,7 @@ export function ExpenseTable() {
                       {e.receiptState === "none" && <span className="text-[#a8a89c]">-</span>}
                     </td>
                     <td className="p-2.5 text-center">
-                      <div className="flex items-center justify-center gap-0.5">
+                      <div className="flex items-center justify-center gap-[3px]">
                         <IconButton icon={Pencil} label="관리비 항목 수정" onClick={() => startEdit(e)} />
                         <IconButton icon={Trash2} label="관리비 항목 삭제" variant="danger" onClick={() => requestDelete(e.id)} />
                       </div>
@@ -420,8 +420,8 @@ export function ExpenseTable() {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={3} className="p-3 text-center font-bold text-[#1a1a1a]">합계</td>
-                <td className="p-3 text-right font-extrabold text-[#2f6f52]">{formatWon(total)}</td>
+                <td colSpan={3} className="py-3 px-2.5 text-center font-bold text-[#1a1a1a]">합계</td>
+                <td className="py-3 px-2.5 text-right font-extrabold text-[#2f6f52]">{formatWon(total)}</td>
                 <td colSpan={3} />
               </tr>
             </tfoot>
@@ -434,10 +434,10 @@ export function ExpenseTable() {
                   <td style={{ width: "14%" }} className="p-1.5 text-center align-middle">
                     {categorySelect}
                   </td>
-                  <td style={{ width: "16%" }} className="relative p-1 text-center align-middle">
+                  <td style={{ width: "16%" }} className="relative py-1.5 px-1 text-center align-middle">
                     {startDatePopover}
                   </td>
-                  <td style={{ width: "16%" }} className="relative p-1 text-center align-middle">
+                  <td style={{ width: "16%" }} className="relative py-1.5 px-1 text-center align-middle">
                     {endDatePopover}
                   </td>
                   <td style={{ width: "14%" }} className="p-1.5 text-right align-middle">
@@ -467,7 +467,7 @@ export function ExpenseTable() {
                     <div className="mb-1.5 flex items-center justify-between gap-2">
                       <div className="flex min-w-0 items-center gap-2">
                         <span
-                          className="rounded-md px-2.5 py-1 text-[11.5px] font-semibold"
+                          className="rounded-md px-[9px] py-1 text-sm font-semibold"
                           style={{ background: CATEGORY_META[e.category].bg, color: CATEGORY_META[e.category].color }}
                         >
                           {e.category}
