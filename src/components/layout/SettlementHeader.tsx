@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, MoreVertical } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 
 interface SettlementHeaderProps {
   monthLabel: string;
   onMenuToggle: () => void;
 }
+
+const MONTH_LABELS = ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09"].map(
+  (m) => `${Number(m.slice(0, 4))}년 ${Number(m.slice(5))}월`,
+);
 
 /** 정산월 헤더: 게시/발송 상태는 이 컴포넌트 로컬 state로만 시뮬레이션한다(Supabase 미연동). */
 export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderProps) {
@@ -16,6 +20,7 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
   const [showPublishConfirm, setShowPublishConfirm] = useState(false);
   const [showSendModal, setShowSendModal] = useState(false);
   const [sendHint, setSendHint] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleSendClick = () => {
     if (!published) {
@@ -24,6 +29,16 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
       return;
     }
     setShowSendModal(true);
+  };
+
+  const menuPublishClick = () => {
+    setShowMobileMenu(false);
+    setShowPublishConfirm(true);
+  };
+
+  const menuSendClick = () => {
+    setShowMobileMenu(false);
+    handleSendClick();
   };
 
   return (
@@ -41,12 +56,16 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
         defaultValue={monthLabel}
         className="h-[35px] rounded-md border border-[#e3e1db] bg-white px-3 text-[13px] font-semibold text-[#1a1a1a]"
       >
-        <option>{monthLabel}</option>
+        {MONTH_LABELS.map((label) => (
+          <option key={label} value={label}>
+            {label}
+          </option>
+        ))}
       </select>
       <div className="flex-1" />
       <a
         href="#"
-        className="inline-flex h-[35px] items-center gap-1 rounded-md border border-[#d8d5cc] px-4 text-[13px] font-semibold text-[#37352f] no-underline"
+        className="hidden h-[35px] items-center gap-1 rounded-md border border-[#d8d5cc] px-4 text-[13px] font-semibold text-[#37352f] no-underline md:inline-flex"
       >
         입주자용 페이지로 이동
         <ExternalLink width={13} height={13} />
@@ -54,14 +73,14 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
       <button
         type="button"
         onClick={() => setShowPublishConfirm(true)}
-        className={`inline-flex h-[35px] cursor-pointer items-center gap-1.5 rounded-md border-none px-4 text-[13px] font-bold ${
+        className={`hidden h-[35px] cursor-pointer items-center gap-1.5 rounded-md border-none px-4 text-[13px] font-bold md:inline-flex ${
           published ? "bg-[#eaf2ee] text-[#2f6f52]" : "bg-[#2f6f52] text-white"
         }`}
       >
         {published ? "게시 중" : "게시하기 전"}
       </button>
       <div
-        className="relative"
+        className="relative hidden md:block"
         onClick={handleSendClick}
         onMouseEnter={() => !published && setSendHint(true)}
         onMouseLeave={() => setSendHint(false)}
@@ -86,6 +105,49 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
         )}
       </div>
 
+      <div className="relative md:hidden">
+        <button
+          type="button"
+          aria-label="더 보기"
+          onClick={() => setShowMobileMenu((v) => !v)}
+          className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center border-none bg-transparent text-[#6b6b62]"
+        >
+          <MoreVertical width={20} height={20} />
+        </button>
+        {showMobileMenu && (
+          <>
+            <div className="fixed inset-0 z-[150]" onClick={() => setShowMobileMenu(false)} />
+            <div
+              className="absolute top-[calc(100%+4px)] right-0 z-[200] flex w-[210px] flex-col gap-0.5 rounded-lg bg-white p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.18)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <a
+                href="#"
+                onClick={() => setShowMobileMenu(false)}
+                className="flex items-center gap-1.5 rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#37352f] no-underline"
+              >
+                입주자용 페이지로 이동
+                <ExternalLink width={13} height={13} />
+              </a>
+              <button
+                type="button"
+                onClick={menuPublishClick}
+                className="flex cursor-pointer items-center gap-1.5 rounded-md border-none bg-transparent px-3 py-2.5 text-left text-[13px] font-semibold text-[#37352f]"
+              >
+                {published ? "게시 중" : "게시하기 전"}
+              </button>
+              <button
+                type="button"
+                onClick={menuSendClick}
+                className="cursor-pointer rounded-md border-none bg-transparent px-3 py-2.5 text-left text-[13px] font-semibold text-[#37352f]"
+              >
+                {sent ? "✓ 발송 완료" : "정산 결과 발송"}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+
       <Modal
         open={showPublishConfirm}
         title={published ? "게시를 취소할까요?" : "관리비 정산을 게시할까요?"}
@@ -105,7 +167,7 @@ export function SettlementHeader({ monthLabel, onMenuToggle }: SettlementHeaderP
       <Modal
         open={showSendModal}
         title="정산 결과를 발송할까요?"
-        description="입주자들에게 이번 달 관리비 정산 결과 알림이 발송돼요."
+        description="입주자들에게 이번 달 관리비 정산 결과 알림이 발송돼요. (이 프로토타입에서는 실제 발송 대신 화면으로만 보여드려요)"
         confirmLabel="발송하기"
         onConfirm={() => {
           setSent(true);
