@@ -45,7 +45,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-4 border-b border-[#e3e1db] bg-white px-6 py-4 lg:px-6">
+    <div className="flex flex-wrap items-center gap-4 border-b border-[#e3e1db] bg-white px-[25px] pt-[55px] pb-4">
       <div className="text-2xl font-bold whitespace-nowrap text-[#1a1a1a]">관리비 정산</div>
       <select
         defaultValue={monthLabel}
