@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { SettlementHeader } from "@/components/layout/SettlementHeader";
 import { LoginGate } from "@/components/layout/LoginGate";
+import { ScrollContainerProvider } from "@/components/layout/ScrollContainerContext";
 
 interface SettlementPageShellProps {
   monthLabel: string;
@@ -12,6 +13,7 @@ interface SettlementPageShellProps {
 
 export function SettlementPageShell({ monthLabel, children }: SettlementPageShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="relative flex min-h-screen">
@@ -25,7 +27,9 @@ export function SettlementPageShell({ monthLabel, children }: SettlementPageShel
       </div>
       <div className="flex min-w-0 flex-1 flex-col bg-white">
         <SettlementHeader monthLabel={monthLabel} onMenuToggle={() => setSidebarOpen((o) => !o)} />
-        <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
+        <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
+          <ScrollContainerProvider value={scrollRef}>{children}</ScrollContainerProvider>
+        </div>
       </div>
     </div>
   );

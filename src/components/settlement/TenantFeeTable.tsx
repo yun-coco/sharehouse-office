@@ -1,5 +1,10 @@
+"use client";
+
+import { useRef } from "react";
 import { Download } from "lucide-react";
 import { mockTenantFees, formatWon, formatDate } from "@/components/mock/settlementMockData";
+import { useScrollContainerRef } from "@/components/layout/ScrollContainerContext";
+import { useStuckHeader } from "@/hooks/useStuckHeader";
 
 interface TenantFeeTableProps {
   empty?: boolean;
@@ -7,6 +12,9 @@ interface TenantFeeTableProps {
 
 /** 입주자별 관리비 표. 읽기 전용(편집/삭제 없음). 계산 로직은 이번 범위 밖 — mock 최종값만 표시. */
 export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
+  const scrollRef = useScrollContainerRef();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const stuck = useStuckHeader(scrollRef, headerRef);
   const rows = empty ? [] : mockTenantFees;
 
   const table = (
@@ -52,7 +60,13 @@ export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
 
   return (
     <div>
-      <div className="mb-3 flex items-center gap-2">
+      <div
+        ref={headerRef}
+        data-testid="tenant-header"
+        className={`sticky top-0 z-[6] mb-3 flex items-center gap-2 bg-white py-1 ${
+          stuck ? "border-b border-[#edece9]" : ""
+        }`}
+      >
         <div className="text-xl font-bold whitespace-nowrap text-[#1a1a1a]">🧾 입주자별 관리비</div>
         <button
           type="button"

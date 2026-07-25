@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Pencil, Trash2, Check, X, GripVertical } from "lucide-react";
 import { IconButton } from "@/components/ui/IconButton";
 import { Modal } from "@/components/ui/Modal";
 import { ToastStack } from "@/components/ui/Toast";
 import { mockAnnouncements, type Announcement } from "@/components/mock/settlementMockData";
+import { useScrollContainerRef } from "@/components/layout/ScrollContainerContext";
+import { useStuckHeader } from "@/hooks/useStuckHeader";
 
 /** 공지사항 섹션: 드래그 정렬(시각적 순서 변경만), 편집/삭제/추가 UI. Supabase 미연동. */
 export function AnnouncementSection() {
+  const scrollRef = useScrollContainerRef();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const stuck = useStuckHeader(scrollRef, headerRef);
   const [announcements, setAnnouncements] = useState<Announcement[]>(mockAnnouncements);
   const [adding, setAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -131,7 +136,13 @@ export function AnnouncementSection() {
 
   return (
     <div className="border-b border-[#edece9] pb-6">
-      <div className="mb-2.5 flex items-center justify-between">
+      <div
+        ref={headerRef}
+        data-testid="announcement-header"
+        className={`sticky top-0 z-[6] mb-2.5 flex items-center justify-between bg-white py-1 ${
+          stuck ? "border-b border-[#edece9]" : ""
+        }`}
+      >
         <div className="flex items-center gap-2.5">
           <div className="text-xl font-bold whitespace-nowrap text-[#1a1a1a]">📌 공지사항</div>
           <div className="text-[11px] whitespace-nowrap text-[#b3b2ab]">드래그해서 순서를 바꿔보세요</div>

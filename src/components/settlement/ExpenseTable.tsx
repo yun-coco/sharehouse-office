@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Pencil, Trash2, Check, X, Download } from "lucide-react";
 import { IconButton } from "@/components/ui/IconButton";
 import { Modal } from "@/components/ui/Modal";
 import { ToastStack } from "@/components/ui/Toast";
 import { DateRangePopover } from "@/components/settlement/DateRangePopover";
+import { useScrollContainerRef } from "@/components/layout/ScrollContainerContext";
+import { useStuckHeader } from "@/hooks/useStuckHeader";
 import {
   mockExpenses,
   CATEGORY_META,
@@ -32,6 +34,9 @@ const EMPTY_DRAFT: DraftExpense = { category: "", startDate: "", endDate: "", am
 
 /** 이번달 관리비 표. 데스크톱은 테이블, 모바일은 카드 리스트로 반응형 전환. Supabase 미연동, mock 데이터로 시뮬레이션. */
 export function ExpenseTable() {
+  const scrollRef = useScrollContainerRef();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const stuck = useStuckHeader(scrollRef, headerRef);
   const [expenses, setExpenses] = useState<MaintenanceFeeItem[]>(mockExpenses);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -206,7 +211,13 @@ export function ExpenseTable() {
 
   return (
     <div className="border-b border-[#edece9] pb-6">
-      <div className="mb-3 flex items-center justify-between">
+      <div
+        ref={headerRef}
+        data-testid="expense-header"
+        className={`sticky top-0 z-[6] mb-3 flex items-center justify-between bg-white py-1 ${
+          stuck ? "border-b border-[#edece9]" : ""
+        }`}
+      >
         <div className="flex items-center gap-2">
           <div className="text-xl font-bold whitespace-nowrap text-[#1a1a1a]">💵 이번달 관리비</div>
           <button
