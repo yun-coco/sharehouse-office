@@ -37,7 +37,7 @@ describe("ExpenseTable", () => {
 
   it("금액 없이 저장하면 경고가 뜨고 항목이 추가되지 않는다", async () => {
     render(<ExpenseTable />);
-    const before = screen.getAllByRole("row").length;
+    const beforeCount = screen.getAllByText("가스비").length;
     await userEvent.click(screen.getAllByRole("button", { name: "+ 추가" })[0]);
     const categorySelect = screen.getAllByRole("combobox")[0];
     await userEvent.selectOptions(categorySelect, "공용물품");
@@ -45,7 +45,9 @@ describe("ExpenseTable", () => {
     await userEvent.click(screen.getByText("15"));
     await userEvent.click(screen.getAllByRole("button", { name: "저장" })[0]);
     expect(await screen.findByText("금액을 입력해주세요")).toBeInTheDocument();
-    expect(screen.getAllByRole("row").length).toBe(before);
+    // 저장 실패했으므로 관리비 항목 자체(가스비 등 기존 5건)는 늘어나지 않는다.
+    // (추가 폼 자체는 여전히 열려 있으므로 폼 요소가 DOM에 남는 것은 정상.)
+    expect(screen.getAllByText("가스비").length).toBe(beforeCount);
   });
 
   it("행 삭제 확인 시 실행취소 토스트가 뜨고, 실행취소하면 복원된다", async () => {
@@ -75,6 +77,31 @@ describe("ExpenseTable", () => {
     expect(await screen.findByText("아직 입력된 관리비 항목이 없어요")).toBeInTheDocument();
     expect(screen.getByText("아직 입력된 지출 항목이 없어요")).toBeInTheDocument();
     expect(screen.getByTestId("expense-empty-blur-table")).toBeInTheDocument();
+  });
+
+  it("데스크톱 편집 행은 조회 모드와 동일하게 7개의 개별 td로 구성된다 (colSpan 병합 아님)", async () => {
+    render(<ExpenseTable />);
+    const editButtons = screen.getAllByRole("button", { name: "관리비 항목 수정" });
+    await userEvent.click(editButtons[0]);
+
+    const editingRow = screen.getAllByRole("row").find((row) => row.querySelector("select"));
+    expect(editingRow).toBeDefined();
+    const cells = editingRow!.querySelectorAll("td");
+    expect(cells).toHaveLength(7);
+    // 각 셀에 병합(colSpan)이 없어야 조회 모드와 동일한 컬럼 위치를 유지한다.
+    cells.forEach((cell) => expect(cell.getAttribute("colspan")).toBeNull());
+    // 컬럼 순서: 항목(select) → 시작일 → 종료일 → 금액(input) → 메모(textarea) → 영수증 → 저장/취소
+    expect(cells[0].querySelector("select")).not.toBeNull();
+    expect(cells[3].querySelector('input[placeholder="금액"]')).not.toBeNull();
+    expect(cells[4].querySelector("textarea")).not.toBeNull();
+  });
+
+  it("데스크톱 편집 행의 항목 select는 원본과 동일하게 border-radius 5px, text-align-last center를 갖는다", async () => {
+    render(<ExpenseTable />);
+    const editButtons = screen.getAllByRole("button", { name: "관리비 항목 수정" });
+    await userEvent.click(editButtons[0]);
+    const select = screen.getAllByRole("combobox")[0];
+    expect(select.className).toMatch(/rounded-\[5px\]/);
   });
 
   it("한 행을 편집 중일 때 다른 행 수정을 시도하면 경고가 뜨고 편집 대상이 바뀌지 않는다", async () => {

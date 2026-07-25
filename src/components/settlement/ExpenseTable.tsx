@@ -148,7 +148,8 @@ export function ExpenseTable() {
     <select
       value={draft.category}
       onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value as MaintenanceFeeCategory }))}
-      className="h-[30px] rounded-md border border-[#e3e1db] px-2 text-[13px]"
+      className="h-[30px] w-full rounded-[5px] border border-[#e3e1db] px-1 text-center text-[13px]"
+      style={{ textAlignLast: "center" }}
     >
       <option value="">항목 선택</option>
       {ALL_CATEGORIES.map((c) => {
@@ -163,49 +164,82 @@ export function ExpenseTable() {
     </select>
   );
 
-  const editRow = (
-    <>
-      {categorySelect}
-      <DateRangePopover
-        value={draft.startDate || null}
-        onChange={(d) => setDraft((s) => ({ ...s, startDate: d }))}
-        placeholder="시작일 선택"
-        anchor="left"
-      />
-      <DateRangePopover
-        value={draft.endDate || null}
-        onChange={(d) => setDraft((s) => ({ ...s, endDate: d }))}
-        placeholder="종료일 선택"
-        anchor="right"
-        allowClear
-        onClear={() => setDraft((s) => ({ ...s, endDate: "" }))}
-      />
-      <input
-        type="text"
-        inputMode="numeric"
-        placeholder="금액"
-        value={draft.amount ? Number(draft.amount).toLocaleString("ko-KR") : ""}
-        onChange={(e) => setDraft((s) => ({ ...s, amount: e.target.value.replace(/[^0-9]/g, "") }))}
-        className="h-[30px] w-[92px] rounded-md border border-[#e3e1db] px-2 text-right text-[13px]"
-      />
-      <textarea
-        placeholder="메모"
-        value={draft.memo}
-        onChange={(e) => setDraft((s) => ({ ...s, memo: e.target.value }))}
-        rows={1}
-        className="h-[30px] flex-1 rounded-md border border-[#e3e1db] px-1.5 text-[13px]"
-      />
-      <button
-        type="button"
-        onClick={toggleReceipt}
-        className={`h-[30px] cursor-pointer rounded-md border border-[#e3e1db] bg-white px-2 text-[13px] ${
-          draft.receiptState === "error" ? "text-[#c0433a]" : "text-[#37352f]"
-        }`}
-      >
-        {draft.receiptState === "uploaded" ? "변경하기" : draft.receiptState === "error" ? "업로드 실패" : "첨부하기"}
-      </button>
+  const startDatePopover = (
+    <DateRangePopover
+      value={draft.startDate || null}
+      onChange={(d) => setDraft((s) => ({ ...s, startDate: d }))}
+      placeholder="시작일 선택"
+      anchor="left"
+    />
+  );
+
+  const endDatePopover = (
+    <DateRangePopover
+      value={draft.endDate || null}
+      onChange={(d) => setDraft((s) => ({ ...s, endDate: d }))}
+      placeholder="종료일 선택"
+      anchor="right"
+      allowClear
+      onClear={() => setDraft((s) => ({ ...s, endDate: "" }))}
+    />
+  );
+
+  const amountInput = (
+    <input
+      type="text"
+      inputMode="numeric"
+      placeholder="금액"
+      value={draft.amount ? Number(draft.amount).toLocaleString("ko-KR") : ""}
+      onChange={(e) => setDraft((s) => ({ ...s, amount: e.target.value.replace(/[^0-9]/g, "") }))}
+      className="h-[30px] w-full rounded-[5px] border border-[#e3e1db] px-2 text-right text-[13px]"
+    />
+  );
+
+  const memoTextarea = (
+    <textarea
+      placeholder="메모"
+      value={draft.memo}
+      onChange={(e) => setDraft((s) => ({ ...s, memo: e.target.value }))}
+      rows={1}
+      className="h-[30px] w-full rounded-[5px] border border-[#e3e1db] px-1 text-[13px]"
+    />
+  );
+
+  const receiptToggleButton = (
+    <button
+      type="button"
+      onClick={toggleReceipt}
+      className={`h-[30px] w-full cursor-pointer rounded-[5px] border border-[#e3e1db] bg-white px-1 text-[13px] ${
+        draft.receiptState === "error" ? "text-[#c0433a]" : "text-[#37352f]"
+      }`}
+    >
+      {draft.receiptState === "uploaded" ? "변경하기" : draft.receiptState === "error" ? "업로드 실패" : "첨부하기"}
+    </button>
+  );
+
+  const saveCancelButtons = (
+    <div className="flex items-center justify-center gap-0.5">
       <IconButton icon={Check} label="저장" onClick={save} />
       <IconButton icon={X} label="취소" onClick={closeForm} />
+    </div>
+  );
+
+  const mobileEditFields = (
+    <>
+      <div className="flex items-center gap-1.5">
+        <div className="w-[70px] flex-shrink-0">{categorySelect}</div>
+        <div className="min-w-0 flex-1">{startDatePopover}</div>
+        <div className="min-w-0 flex-1">{endDatePopover}</div>
+        <div className="w-[92px] flex-shrink-0">{amountInput}</div>
+      </div>
+      {memoTextarea}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[13px] text-[#6b6b62]">영수증</span>
+          {receiptToggleButton}
+        </div>
+        {saveCancelButtons}
+      </div>
     </>
   );
 
@@ -329,9 +363,13 @@ export function ExpenseTable() {
               {expenses.map((e) =>
                 editingId === e.id ? (
                   <tr key={e.id} className="border-b border-[#f1f1ef] bg-[#fafaf8]">
-                    <td colSpan={7} className="p-1.5">
-                      <div className="flex items-center gap-1.5">{editRow}</div>
-                    </td>
+                    <td className="p-1.5 text-center align-middle">{categorySelect}</td>
+                    <td className="relative p-1 text-center align-middle">{startDatePopover}</td>
+                    <td className="relative p-1 text-center align-middle">{endDatePopover}</td>
+                    <td className="p-1.5 text-right align-middle">{amountInput}</td>
+                    <td className="p-1.5 text-left align-middle">{memoTextarea}</td>
+                    <td className="p-1.5 text-center align-middle">{receiptToggleButton}</td>
+                    <td className="p-1.5 text-center align-middle">{saveCancelButtons}</td>
                   </tr>
                 ) : (
                   <tr key={e.id} className="border-b border-[#f1f1ef]">
@@ -379,14 +417,40 @@ export function ExpenseTable() {
           </table>
 
           {showForm && !editingId && (
-            <div className="mt-1.5 hidden items-center gap-1.5 rounded-md bg-[#fafaf8] p-1.5 md:flex">{editRow}</div>
+            <table className="mt-1.5 hidden w-full table-fixed border-collapse text-[13px] md:table">
+              <tbody>
+                <tr className="bg-[#fafaf8]">
+                  <td style={{ width: "14%" }} className="p-1.5 text-center align-middle">
+                    {categorySelect}
+                  </td>
+                  <td style={{ width: "16%" }} className="relative p-1 text-center align-middle">
+                    {startDatePopover}
+                  </td>
+                  <td style={{ width: "16%" }} className="relative p-1 text-center align-middle">
+                    {endDatePopover}
+                  </td>
+                  <td style={{ width: "14%" }} className="p-1.5 text-right align-middle">
+                    {amountInput}
+                  </td>
+                  <td style={{ width: "22%" }} className="p-1.5 text-left align-middle">
+                    {memoTextarea}
+                  </td>
+                  <td style={{ width: "12%" }} className="p-1.5 text-center align-middle">
+                    {receiptToggleButton}
+                  </td>
+                  <td style={{ width: "6%" }} className="p-1.5 text-center align-middle">
+                    {saveCancelButtons}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           )}
 
           <div className="flex flex-col md:hidden">
             {expenses.map((e) => (
               <div key={e.id} className="border-b border-[#f1f1ef] py-2.5">
                 {editingId === e.id ? (
-                  <div className="flex flex-col gap-2">{editRow}</div>
+                  <div className="flex flex-col gap-2">{mobileEditFields}</div>
                 ) : (
                   <>
                     <div className="mb-1.5 flex items-center justify-between gap-2">
@@ -427,7 +491,9 @@ export function ExpenseTable() {
                 )}
               </div>
             ))}
-            {showForm && !editingId && <div className="flex flex-col gap-2 bg-[#fafaf8] py-2.5">{editRow}</div>}
+            {showForm && !editingId && (
+              <div className="flex flex-col gap-2 bg-[#fafaf8] py-2.5">{mobileEditFields}</div>
+            )}
             <div className="mt-2.5 flex justify-between pt-2.5">
               <span className="font-bold text-[#1a1a1a]">합계</span>
               <span className="font-extrabold text-[#2f6f52]">{formatWon(total)}</span>
