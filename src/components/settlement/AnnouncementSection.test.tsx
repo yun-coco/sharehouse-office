@@ -24,6 +24,23 @@ describe("AnnouncementSection", () => {
     expect(await screen.findByText("제목을 입력해주세요")).toBeInTheDocument();
   });
 
+  it("제목 없이 저장 시도하면 제목 입력 필드 테두리가 빨간색으로 바뀐다", async () => {
+    render(<AnnouncementSection />);
+    await userEvent.click(screen.getByRole("button", { name: "+ 추가" }));
+    await userEvent.click(screen.getByRole("button", { name: "저장" }));
+    await screen.findByText("제목을 입력해주세요");
+    expect(screen.getByPlaceholderText("제목").className).toMatch(/border-\[#c0433a\]/);
+  });
+
+  it("제목을 입력하면 빨간 테두리가 사라진다", async () => {
+    render(<AnnouncementSection />);
+    await userEvent.click(screen.getByRole("button", { name: "+ 추가" }));
+    await userEvent.click(screen.getByRole("button", { name: "저장" }));
+    await screen.findByText("제목을 입력해주세요");
+    await userEvent.type(screen.getByPlaceholderText("제목"), "새 공지");
+    expect(screen.getByPlaceholderText("제목").className).not.toMatch(/border-\[#c0433a\]/);
+  });
+
   it("제목/본문 입력 후 저장하면 리스트에 새 항목이 추가된다", async () => {
     render(<AnnouncementSection />);
     await userEvent.click(screen.getByRole("button", { name: "+ 추가" }));
@@ -39,6 +56,46 @@ describe("AnnouncementSection", () => {
     await userEvent.click(deleteButtons[0]);
     await userEvent.click(screen.getByRole("button", { name: "삭제" }));
     expect(screen.queryByText("정산 결과 안내")).not.toBeInTheDocument();
+  });
+
+  it("삭제 확정 후 실행취소 토스트가 뜨고, 실행취소하면 항목이 복원된다", async () => {
+    render(<AnnouncementSection />);
+    const deleteButtons = screen.getAllByRole("button", { name: "공지사항 삭제" });
+    await userEvent.click(deleteButtons[0]);
+    await userEvent.click(screen.getByRole("button", { name: "삭제" }));
+    expect(screen.queryByText("정산 결과 안내")).not.toBeInTheDocument();
+
+    expect(await screen.findByText(/공지사항.*삭제했어요/)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("link", { name: "실행취소" }));
+    expect(screen.getByText("정산 결과 안내")).toBeInTheDocument();
+  });
+
+  it("공지사항 본문 텍스트에 3줄 말줄임(line-clamp) 스타일이 적용된다", () => {
+    render(<AnnouncementSection />);
+    const bodyText = screen.getByText("이번 달 정산 결과는 7월 25일 이후에 게시될 예정이에요.");
+    expect(bodyText.className).toMatch(/line-clamp-3/);
+  });
+
+  it("드래그 중인 항목이 다른 행 위로 올라오면 해당 행 상단에 초록색 드롭 인디케이터가 표시된다", () => {
+    render(<AnnouncementSection />);
+    const firstRow = screen.getByTestId("announcement-row-ann-1");
+    const secondRow = screen.getByTestId("announcement-row-ann-2");
+
+    fireEvent.dragStart(firstRow);
+    fireEvent.dragOver(secondRow);
+
+    expect(secondRow.className).toMatch(/border-t-\[#2f6f52\]/);
+  });
+
+  it("드래그 중인 항목이 목록 끝 드롭존 위로 올라오면 드롭존에 초록색 인디케이터가 표시된다", () => {
+    render(<AnnouncementSection />);
+    const firstRow = screen.getByTestId("announcement-row-ann-1");
+    const endDropZone = screen.getByTestId("announcement-end-drop-zone");
+
+    fireEvent.dragStart(firstRow);
+    fireEvent.dragOver(endDropZone);
+
+    expect(endDropZone.className).toMatch(/border-t-\[#2f6f52\]/);
   });
 
   it("첫 항목을 드래그해서 목록 끝 드롭존에 놓으면 마지막으로 이동한다", () => {

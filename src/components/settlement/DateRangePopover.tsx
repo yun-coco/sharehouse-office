@@ -46,7 +46,9 @@ export function DateRangePopover({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="h-[30px] cursor-pointer rounded-md border border-[#e3e1db] bg-white px-2 text-center text-[13px] text-[#1a1a1a]"
+        className={`h-[30px] cursor-pointer rounded-md border border-[#e3e1db] bg-white px-2 text-center text-[13px] ${
+          value ? "text-[#1a1a1a]" : "text-[#a8a89c]"
+        }`}
       >
         {label}
       </button>

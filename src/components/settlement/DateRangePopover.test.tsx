@@ -23,6 +23,25 @@ describe("DateRangePopover", () => {
     expect(screen.getByRole("button", { name: "2026.07.15" })).toBeInTheDocument();
   });
 
+  it("value가 없으면 placeholder 색상(연한 회색)을 사용한다", () => {
+    render(
+      <DateRangePopover value={null} onChange={() => {}} placeholder="시작일 선택" anchor="left" />,
+    );
+    expect(screen.getByRole("button", { name: "시작일 선택" }).className).toMatch(/text-\[#a8a89c\]/);
+  });
+
+  it("value가 있으면 진한 텍스트 색상을 사용한다", () => {
+    render(
+      <DateRangePopover
+        value="2026-07-15"
+        onChange={() => {}}
+        placeholder="시작일 선택"
+        anchor="left"
+      />,
+    );
+    expect(screen.getByRole("button", { name: "2026.07.15" }).className).toMatch(/text-\[#1a1a1a\]/);
+  });
+
   it("버튼 클릭 시 캘린더 팝오버가 열린다", async () => {
     render(
       <DateRangePopover value={null} onChange={() => {}} placeholder="시작일 선택" anchor="left" />,
