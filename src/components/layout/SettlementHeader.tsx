@@ -49,7 +49,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
       <div className="text-2xl font-bold whitespace-nowrap text-[#1a1a1a]">관리비 정산</div>
       <select
         defaultValue={monthLabel}
-        className="h-[35px] rounded-md border border-[#e3e1db] bg-white px-3 text-[13px] font-semibold text-[#1a1a1a]"
+        className="h-[35px] rounded-md border border-[#e3e1db] bg-white py-0 pr-[30px] pl-[11px] text-[13px] font-semibold text-[#1a1a1a]"
       >
         {MONTH_LABELS.map((label) => (
           <option key={label} value={label}>
@@ -60,7 +60,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
       <div className="flex-1" />
       <a
         href="#"
-        className="hidden h-[35px] items-center gap-1 rounded-md border border-[#d8d5cc] px-4 text-[13px] font-semibold text-[#37352f] no-underline md:inline-flex"
+        className="hidden h-[35px] items-center gap-[5px] rounded-[7px] border border-[#d8d5cc] px-4 text-[13px] font-semibold text-[#37352f] no-underline md:inline-flex"
       >
         입주자용 페이지로 이동
         <ExternalLink width={13} height={13} />
@@ -68,7 +68,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
       <button
         type="button"
         onClick={() => setShowPublishConfirm(true)}
-        className={`hidden h-[35px] cursor-pointer items-center gap-1.5 rounded-md border-none px-4 text-[13px] font-bold md:inline-flex ${
+        className={`hidden h-[35px] cursor-pointer items-center gap-1.5 rounded-[7px] border-none px-[18px] text-[13px] font-bold md:inline-flex ${
           published ? "bg-[#eaf2ee] text-[#2f6f52]" : "bg-[#2f6f52] text-white"
         }`}
       >
@@ -89,7 +89,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
         <button
           type="button"
           disabled={!published}
-          className={`h-[35px] rounded-md border-none px-4 text-[13px] font-bold whitespace-nowrap ${
+          className={`h-[35px] rounded-[7px] border-none px-[18px] text-[13px] font-bold whitespace-nowrap ${
             published
               ? sent
                 ? "cursor-pointer bg-[#eaf2ee] text-[#2f6f52]"
@@ -111,7 +111,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
           type="button"
           aria-label="더 보기"
           onClick={() => setShowMobileMenu((v) => !v)}
-          className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center border-none bg-transparent text-[#6b6b62]"
+          className="-mr-2.5 flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center border-none bg-transparent text-[#6b6b62]"
         >
           <MoreVertical width={20} height={20} />
         </button>
@@ -119,13 +119,13 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
           <>
             <div className="fixed inset-0 z-[150]" onClick={() => setShowMobileMenu(false)} />
             <div
-              className="absolute top-[calc(100%+4px)] right-0 z-[200] flex w-[210px] flex-col gap-0.5 rounded-lg bg-white p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.18)]"
+              className="absolute top-[calc(100%+4px)] right-0 z-[200] flex w-[210px] flex-col gap-0.5 rounded-[10px] bg-white p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.18)]"
               onClick={(e) => e.stopPropagation()}
             >
               <a
                 href="#"
                 onClick={() => setShowMobileMenu(false)}
-                className="flex items-center gap-1.5 rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#37352f] no-underline"
+                className="flex items-center gap-[5px] rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#37352f] no-underline"
               >
                 입주자용 페이지로 이동
                 <ExternalLink width={13} height={13} />

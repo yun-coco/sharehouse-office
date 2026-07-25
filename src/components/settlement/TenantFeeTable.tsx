@@ -22,11 +22,11 @@ export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
       <table className="hidden w-full border-collapse text-[13px] md:table">
         <thead>
           <tr className="border-b border-[#edece9] text-[#9b9a97]">
-            <th className="p-2 text-center font-semibold">이름</th>
-            <th className="p-2 text-center font-semibold">시작일</th>
-            <th className="p-2 text-center font-semibold">종료일</th>
-            <th className="p-2 text-center font-semibold">이용일수</th>
-            <th className="p-2 text-center font-semibold">관리비</th>
+            <th className="py-2 px-2.5 text-center font-semibold">이름</th>
+            <th className="py-2 px-2.5 text-center font-semibold">시작일</th>
+            <th className="py-2 px-2.5 text-center font-semibold">종료일</th>
+            <th className="py-2 px-2.5 text-center font-semibold">이용일수</th>
+            <th className="py-2 px-2.5 text-center font-semibold">관리비</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +63,7 @@ export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
       <div
         ref={headerRef}
         data-testid="tenant-header"
-        className={`sticky top-0 z-[6] mb-3 flex items-center gap-2 bg-white py-1 ${
+        className={`sticky top-0 z-[6] mb-3 flex items-center gap-2 bg-white pt-[21px] pb-1.5 ${
           stuck ? "border-b border-[#edece9]" : ""
         }`}
       >
@@ -81,7 +81,7 @@ export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
         <div className="relative">
           <div className="pointer-events-none opacity-55 blur-[3px] select-none">{table}</div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-6 py-3 text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
+            <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-[22px] py-3 text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
               정산할 입주자가 없어요
             </div>
           </div>
