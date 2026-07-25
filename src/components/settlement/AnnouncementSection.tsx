@@ -140,7 +140,7 @@ export function AnnouncementSection() {
       <div
         ref={headerRef}
         data-testid="announcement-header"
-        className={`sticky top-0 z-[6] mb-2.5 flex items-center justify-between bg-white py-1 ${
+        className={`sticky top-0 z-[6] mb-2.5 flex items-center justify-between bg-white pt-[21px] pb-1.5 ${
           stuck ? "border-b border-[#edece9]" : ""
         }`}
       >
@@ -170,7 +170,7 @@ export function AnnouncementSection() {
             }}
             onDragEnd={() => setDragOverId(null)}
             onDrop={() => reorder(a.id)}
-            className={`flex items-center gap-2.5 rounded-2xl bg-[#fdf3e2] p-3.5 px-4 ${
+            className={`flex items-center gap-2.5 rounded-[14px] bg-[#fdf3e2] p-3.5 px-4 ${
               dragId && dragId !== a.id && dragOverId === a.id ? "border-t-2 border-t-[#2f6f52]" : ""
             }`}
           >
@@ -196,8 +196,10 @@ export function AnnouncementSection() {
                     className="rounded-md border border-[#e3e1db] bg-white px-2.5 py-1.5 text-[13px]"
                   />
                 </div>
-                <IconButton icon={Check} label="저장" onClick={save} />
-                <IconButton icon={X} label="취소" onClick={closeForm} />
+                <div className="flex items-center gap-[5px]">
+                  <IconButton icon={Check} label="저장" onClick={save} />
+                  <IconButton icon={X} label="취소" onClick={closeForm} />
+                </div>
               </div>
             ) : (
               <>
@@ -208,8 +210,10 @@ export function AnnouncementSection() {
                   <div className="font-bold text-[#1a1a1a]">{a.title}</div>
                   <div className="mt-1 line-clamp-3 text-[13px] leading-relaxed text-[#5c5646]">{a.text}</div>
                 </div>
-                <IconButton icon={Pencil} label="공지사항 수정" onClick={() => startEdit(a)} />
-                <IconButton icon={Trash2} label="공지사항 삭제" variant="danger" onClick={() => requestDelete(a.id)} />
+                <div className="flex items-center gap-[5px]">
+                  <IconButton icon={Pencil} label="공지사항 수정" onClick={() => startEdit(a)} />
+                  <IconButton icon={Trash2} label="공지사항 삭제" variant="danger" onClick={() => requestDelete(a.id)} />
+                </div>
               </>
             )}
           </div>
@@ -227,7 +231,7 @@ export function AnnouncementSection() {
         />
 
         {adding && (
-          <div className="flex flex-col gap-2 rounded-2xl border border-[#e3e1db] bg-[#fafaf8] p-3.5 px-4">
+          <div className="flex flex-col gap-2 rounded-[14px] border border-[#e3e1db] bg-[#fafaf8] p-3.5 px-4">
             <div className="flex items-start gap-2.5">
               <div className="flex flex-1 flex-col gap-1.5">
                 <input
@@ -249,8 +253,10 @@ export function AnnouncementSection() {
                   className="rounded-md border border-[#e3e1db] bg-white px-2.5 py-1.5 text-[13px]"
                 />
               </div>
-              <IconButton icon={Check} label="저장" onClick={save} />
-              <IconButton icon={X} label="취소" onClick={closeForm} />
+              <div className="flex items-center gap-[5px]">
+                <IconButton icon={Check} label="저장" onClick={save} />
+                <IconButton icon={X} label="취소" onClick={closeForm} />
+              </div>
             </div>
           </div>
         )}
@@ -271,7 +277,7 @@ export function AnnouncementSection() {
 
       {undoToast && (
         <div className="fixed bottom-6 left-1/2 z-[999] -translate-x-1/2">
-          <div className="flex items-center gap-2.5 rounded-lg bg-[#1c231f] px-5 py-3 text-[13px] whitespace-nowrap text-white shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
+          <div className="flex items-center gap-2.5 rounded-[9px] bg-[#1c231f] px-5 py-3 text-[13px] whitespace-nowrap text-white shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
             <span>{undoToast.message}</span>
             <a
               href="#"

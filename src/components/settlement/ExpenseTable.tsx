@@ -528,7 +528,7 @@ export function ExpenseTable() {
 
       {undoToast && (
         <div className="fixed bottom-6 left-1/2 z-[999] -translate-x-1/2">
-          <div className="flex items-center gap-2.5 rounded-lg bg-[#1c231f] px-5 py-3 text-[13px] whitespace-nowrap text-white shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
+          <div className="flex items-center gap-2.5 rounded-[9px] bg-[#1c231f] px-5 py-3 text-[13px] whitespace-nowrap text-white shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
             <span>{undoToast.message}</span>
             <a
               href="#"

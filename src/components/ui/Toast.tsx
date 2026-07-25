@@ -6,7 +6,7 @@ interface ToastProps {
 export function Toast({ message, variant }: ToastProps) {
   const bgClass = variant === "warning" ? "bg-[#c0433a]" : "bg-[#1c231f]";
   return (
-    <div className={`rounded-lg ${bgClass} px-5 py-3 text-[13px] whitespace-nowrap text-white shadow-[0_8px_24px_rgba(0,0,0,0.2)]`}>
+    <div className={`rounded-[9px] ${bgClass} px-5 py-3 text-[13px] whitespace-nowrap text-white shadow-[0_8px_24px_rgba(0,0,0,0.2)]`}>
       {message}
     </div>
   );
