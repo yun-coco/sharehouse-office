@@ -42,19 +42,32 @@ export function TenantFeeTable({ empty = false }: TenantFeeTableProps) {
         </tbody>
       </table>
 
-      <div className="flex flex-col md:hidden">
-        {rows.map((t) => (
-          <div key={t.id} className="border-b border-[#f1f1ef] py-2.5">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[#2f6f52]">{t.name}</span>
-              <span className="text-sm font-extrabold text-[#1a1a1a]">{formatWon(t.fee)}</span>
-            </div>
-            <div className="mt-1 text-xs text-[#6b6b62]">
-              {formatDate(t.start)} ~ {formatDate(t.end)} · {t.days}일 이용
-            </div>
-          </div>
-        ))}
-      </div>
+      <table className="w-full table-auto border-collapse text-[14px] md:hidden">
+        <thead>
+          <tr className="border-b border-[#edece9] text-[#9b9a97]">
+            <th className="py-1.5 px-[3px] text-center font-semibold whitespace-nowrap">이름</th>
+            <th className="py-1.5 px-[3px] text-center font-semibold whitespace-nowrap">시작일</th>
+            <th className="py-1.5 px-[3px] text-center font-semibold whitespace-nowrap">종료일</th>
+            <th className="py-1.5 px-[3px] text-center font-semibold whitespace-nowrap">일수</th>
+            <th className="py-1.5 px-[3px] text-center font-semibold whitespace-nowrap">관리비</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((t) => (
+            <tr key={t.id} className="border-b border-[#f1f1ef]">
+              <td className="overflow-hidden py-2 px-[3px] text-center font-bold whitespace-nowrap text-ellipsis text-[#1a1a1a]">
+                {t.name}
+              </td>
+              <td className="py-2 px-[3px] text-center whitespace-nowrap text-[#37352f]">{formatDate(t.start)}</td>
+              <td className="py-2 px-[3px] text-center whitespace-nowrap text-[#37352f]">{formatDate(t.end)}</td>
+              <td className="py-2 px-[3px] text-center whitespace-nowrap text-[#37352f]">{t.days}일</td>
+              <td className="py-2 px-[3px] text-right font-bold whitespace-nowrap text-[#1a1a1a]">
+                {formatWon(t.fee)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 

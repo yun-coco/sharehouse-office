@@ -60,7 +60,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
       <div className="flex-1" />
       <a
         href="#"
-        className="hidden h-[35px] items-center gap-[5px] rounded-[7px] border border-[#d8d5cc] px-4 text-[13px] font-semibold text-[#37352f] no-underline md:inline-flex"
+        className="hidden h-[35px] items-center gap-[5px] rounded-[7px] border border-[#d8d5cc] px-4 text-[13px] font-semibold text-[#37352f] no-underline hover:border-[#cfe4da] hover:bg-[#eaf2ee] hover:opacity-100 md:inline-flex"
       >
         입주자용 페이지로 이동
         <ExternalLink width={13} height={13} />
@@ -68,7 +68,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
       <button
         type="button"
         onClick={() => setShowPublishConfirm(true)}
-        className={`hidden h-[35px] cursor-pointer items-center gap-1.5 rounded-[7px] border-none px-[18px] text-[13px] font-bold md:inline-flex ${
+        className={`hidden h-[35px] cursor-pointer items-center gap-1.5 rounded-[7px] border-none px-[18px] text-[13px] font-bold hover:brightness-[0.92] md:inline-flex ${
           published ? "bg-[#eaf2ee] text-[#2f6f52]" : "bg-[#2f6f52] text-white"
         }`}
       >
@@ -92,8 +92,8 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
           className={`h-[35px] rounded-[7px] border-none px-[18px] text-[13px] font-bold whitespace-nowrap ${
             published
               ? sent
-                ? "cursor-pointer bg-[#eaf2ee] text-[#2f6f52]"
-                : "cursor-pointer bg-[#1a1a1a] text-white"
+                ? "cursor-pointer bg-[#eaf2ee] text-[#2f6f52] hover:brightness-[0.92]"
+                : "cursor-pointer bg-[#1a1a1a] text-white hover:brightness-[0.92]"
               : "cursor-not-allowed bg-[#e2e0d8] text-[#a8a89c]"
           }`}
         >
@@ -125,7 +125,7 @@ export function SettlementHeader({ monthLabel }: SettlementHeaderProps) {
               <a
                 href="#"
                 onClick={() => setShowMobileMenu(false)}
-                className="flex items-center gap-[5px] rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#37352f] no-underline"
+                className="flex items-center gap-[5px] rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#37352f] no-underline hover:bg-[#eaf2ee] hover:opacity-100"
               >
                 입주자용 페이지로 이동
                 <ExternalLink width={13} height={13} />
