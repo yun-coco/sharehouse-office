@@ -26,12 +26,23 @@ describe("ExpenseTable", () => {
     expect((gasOption as HTMLOptionElement).disabled).toBe(true);
   });
 
+  it("시작일 없이 저장하면 시작일 경고가 뜬다 (카테고리 다음으로 검사)", async () => {
+    render(<ExpenseTable />);
+    await userEvent.click(screen.getAllByRole("button", { name: "+ 추가" })[0]);
+    const categorySelect = screen.getAllByRole("combobox")[0];
+    await userEvent.selectOptions(categorySelect, "공용물품");
+    await userEvent.click(screen.getAllByRole("button", { name: "저장" })[0]);
+    expect(await screen.findByText("시작일(구매일)을 입력해주세요")).toBeInTheDocument();
+  });
+
   it("금액 없이 저장하면 경고가 뜨고 항목이 추가되지 않는다", async () => {
     render(<ExpenseTable />);
     const before = screen.getAllByRole("row").length;
     await userEvent.click(screen.getAllByRole("button", { name: "+ 추가" })[0]);
     const categorySelect = screen.getAllByRole("combobox")[0];
     await userEvent.selectOptions(categorySelect, "공용물품");
+    await userEvent.click(screen.getAllByRole("button", { name: "시작일 선택" })[0]);
+    await userEvent.click(screen.getByText("15"));
     await userEvent.click(screen.getAllByRole("button", { name: "저장" })[0]);
     expect(await screen.findByText("금액을 입력해주세요")).toBeInTheDocument();
     expect(screen.getAllByRole("row").length).toBe(before);
@@ -46,10 +57,24 @@ describe("ExpenseTable", () => {
     expect(screen.getAllByText("가스비").length).toBeGreaterThan(0);
   });
 
-  it("'📎 첨부됨' 클릭 시 영수증 미리보기 모달이 뜬다", async () => {
+  it("'📎 첨부됨' 클릭 시 영수증 미리보기 모달이 뜨고 이미지가 보인다", async () => {
     render(<ExpenseTable />);
     await userEvent.click(screen.getAllByText("📎 첨부됨")[0]);
     expect(screen.getByText("가스비 영수증")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "가스비 영수증" })).toBeInTheDocument();
+  });
+
+  it("모든 항목을 삭제하면 블러 처리된 샘플 표 위에 안내 문구가 오버레이로 표시된다 (데스크톱/모바일 각각 다른 문구)", async () => {
+    render(<ExpenseTable />);
+    const desktopDeleteCount = screen.getAllByRole("button", { name: "관리비 항목 삭제" }).length / 2;
+    for (let i = 0; i < desktopDeleteCount; i++) {
+      const btn = screen.getAllByRole("button", { name: "관리비 항목 삭제" })[0];
+      await userEvent.click(btn);
+      await userEvent.click(screen.getByRole("button", { name: "삭제" }));
+    }
+    expect(await screen.findByText("아직 입력된 관리비 항목이 없어요")).toBeInTheDocument();
+    expect(screen.getByText("아직 입력된 지출 항목이 없어요")).toBeInTheDocument();
+    expect(screen.getByTestId("expense-empty-blur-table")).toBeInTheDocument();
   });
 
   it("한 행을 편집 중일 때 다른 행 수정을 시도하면 경고가 뜨고 편집 대상이 바뀌지 않는다", async () => {

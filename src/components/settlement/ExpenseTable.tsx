@@ -86,12 +86,12 @@ export function ExpenseTable() {
       showWarning("카테고리를 선택해주세요");
       return;
     }
-    if (!draft.amount || Number(draft.amount) <= 0) {
-      showWarning("금액을 입력해주세요");
-      return;
-    }
     if (!draft.startDate) {
       showWarning("시작일(구매일)을 입력해주세요");
+      return;
+    }
+    if (!draft.amount || Number(draft.amount) <= 0) {
+      showWarning("금액을 입력해주세요");
       return;
     }
     if (draft.endDate && draft.endDate < draft.startDate) {
@@ -227,9 +227,79 @@ export function ExpenseTable() {
       </div>
 
       {expenses.length === 0 && !showForm ? (
-        <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-6 py-3 text-center text-[13px] font-semibold text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
-          아직 입력된 관리비 항목이 없어요
-        </div>
+        <>
+          <div className="relative hidden md:block" data-testid="expense-empty-blur-table">
+            <table className="pointer-events-none w-full table-fixed border-collapse text-[13px] blur-[3px] opacity-55 select-none">
+              <thead>
+                <tr className="border-b border-[#edece9] text-[#9b9a97]">
+                  <th style={{ width: "14%" }} className="p-2 text-center font-semibold">항목</th>
+                  <th style={{ width: "16%" }} className="p-2 text-center font-semibold">시작일/구매일</th>
+                  <th style={{ width: "16%" }} className="p-2 text-center font-semibold">종료일</th>
+                  <th style={{ width: "14%" }} className="p-2 text-center font-semibold">금액</th>
+                  <th style={{ width: "22%" }} className="p-2 text-center font-semibold">메모</th>
+                  <th style={{ width: "12%" }} className="p-2 text-center font-semibold">영수증</th>
+                  <th style={{ width: "6%" }} className="p-2 text-center font-semibold" />
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-[#f1f1ef]">
+                  <td className="p-2.5 text-center">
+                    <span className="rounded-md bg-[#fdece3] px-2.5 py-1 font-semibold text-[#9a5b2e]">가스비</span>
+                  </td>
+                  <td className="p-2.5 text-center text-[#37352f]">7/1</td>
+                  <td className="p-2.5 text-center text-[#37352f]">7/31</td>
+                  <td className="p-2.5 text-right font-semibold text-[#1a1a1a]">68,000원</td>
+                  <td className="p-2.5 text-left text-[#6b6b62]">7월 도시가스 고지서</td>
+                  <td className="p-2.5 text-center text-[#2f6f52]">📎 첨부됨</td>
+                  <td />
+                </tr>
+                <tr>
+                  <td className="p-2.5 text-center">
+                    <span className="rounded-md bg-[#fef6da] px-2.5 py-1 font-semibold text-[#8a6f10]">전기세</span>
+                  </td>
+                  <td className="p-2.5 text-center text-[#37352f]">7/1</td>
+                  <td className="p-2.5 text-center text-[#37352f]">7/31</td>
+                  <td className="p-2.5 text-right font-semibold text-[#1a1a1a]">92,000원</td>
+                  <td className="p-2.5 text-left text-[#6b6b62]" />
+                  <td className="p-2.5 text-center text-[#c0433a]">업로드 실패</td>
+                  <td />
+                </tr>
+              </tbody>
+            </table>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-6 py-3 text-center text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
+                아직 입력된 관리비 항목이 없어요
+              </div>
+            </div>
+          </div>
+
+          <div className="relative md:hidden">
+            <div className="pointer-events-none blur-[3px] opacity-55 select-none">
+              <div className="border-b border-[#f1f1ef] py-2.5">
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <span className="rounded-md bg-[#fdece3] px-2.5 py-1 text-[11.5px] font-semibold text-[#9a5b2e]">
+                    가스비
+                  </span>
+                  <span className="text-sm font-extrabold text-[#1a1a1a]">68,000원</span>
+                </div>
+                <div className="text-xs text-[#6b6b62]">7월 도시가스 고지서</div>
+              </div>
+              <div className="py-2.5">
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <span className="rounded-md bg-[#fef6da] px-2.5 py-1 text-[11.5px] font-semibold text-[#8a6f10]">
+                    전기세
+                  </span>
+                  <span className="text-sm font-extrabold text-[#1a1a1a]">92,000원</span>
+                </div>
+              </div>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-lg border border-[#e3e1db] bg-[rgba(255,255,255,0.92)] px-6 py-3 text-center text-[13px] font-semibold whitespace-nowrap text-[#6b6b62] shadow-[0_6px_20px_rgba(0,0,0,0.08)]">
+                아직 입력된 지출 항목이 없어요
+              </div>
+            </div>
+          </div>
+        </>
       ) : (
         <>
           <table className="hidden w-full table-fixed border-collapse text-[13px] md:table">
@@ -386,14 +456,35 @@ export function ExpenseTable() {
         </div>
       )}
 
-      <Modal
-        open={previewCategory !== null}
-        title={`${previewCategory ?? ""} 영수증`}
-        confirmLabel="닫기"
-        cancelAriaLabel="영수증 미리보기 닫기 취소"
-        onConfirm={() => setPreviewCategory(null)}
-        onCancel={() => setPreviewCategory(null)}
-      />
+      {previewCategory !== null && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(20,22,18,0.45)]"
+          onClick={() => setPreviewCategory(null)}
+        >
+          <div
+            className="w-[360px] rounded-xl bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <div className="text-sm font-bold text-[#1a1a1a]">{previewCategory} 영수증</div>
+              <button
+                type="button"
+                onClick={() => setPreviewCategory(null)}
+                aria-label="영수증 미리보기 닫기"
+                className="cursor-pointer border-none bg-transparent text-base text-[#6b6b62]"
+              >
+                ✕
+              </button>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element -- mock 미리보기 전용 외부 placeholder 이미지, next/image 원격 도메인 설정 불필요 */}
+            <img
+              src="https://picsum.photos/seed/receipt/480/640"
+              alt={`${previewCategory} 영수증`}
+              className="block w-full rounded-lg"
+            />
+          </div>
+        </div>
+      )}
 
       <Modal
         open={showUnsavedAlert}
