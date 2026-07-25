@@ -197,8 +197,8 @@ export function AnnouncementSection() {
                   />
                 </div>
                 <div className="flex items-center gap-[5px]">
-                  <IconButton icon={Check} label="저장" onClick={save} />
-                  <IconButton icon={X} label="취소" onClick={closeForm} />
+                  <IconButton icon={Check} label="저장" size={18} onClick={save} />
+                  <IconButton icon={X} label="취소" size={18} onClick={closeForm} />
                 </div>
               </div>
             ) : (
@@ -254,8 +254,8 @@ export function AnnouncementSection() {
                 />
               </div>
               <div className="flex items-center gap-[5px]">
-                <IconButton icon={Check} label="저장" onClick={save} />
-                <IconButton icon={X} label="취소" onClick={closeForm} />
+                <IconButton icon={Check} label="저장" size={18} onClick={save} />
+                <IconButton icon={X} label="취소" size={18} onClick={closeForm} />
               </div>
             </div>
           </div>

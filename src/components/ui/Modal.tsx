@@ -27,20 +27,20 @@ export function Modal({
     <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(20,22,18,0.45)]">
       <div className="w-[340px] rounded-xl bg-white p-7 shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
         <div className="mb-2 text-base font-bold text-[#1a1a1a]">{title}</div>
-        {description && <div className="mb-5 text-[13px] leading-relaxed text-[#6b6b62]">{description}</div>}
+        {description && <div className="mb-5 text-[13px] leading-[1.5] text-[#6b6b62]">{description}</div>}
         <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={onCancel}
             aria-label={cancelAriaLabel ?? cancelLabel}
-            className="cursor-pointer rounded-md border border-[#e3e1db] bg-white px-4 py-2 text-[13px] text-[#37352f]"
+            className="cursor-pointer rounded-md border border-[#e3e1db] bg-white px-4 py-[9px] text-[13px] text-[#37352f]"
           >
             {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className={`cursor-pointer rounded-md border-none px-4 py-2 text-[13px] font-semibold text-white ${
+            className={`cursor-pointer rounded-md border-none px-4 py-[9px] text-[13px] font-semibold text-white ${
               danger ? "bg-[#c0433a]" : "bg-[#2f6f52]"
             }`}
           >

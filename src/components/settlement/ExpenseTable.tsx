@@ -230,8 +230,8 @@ export function ExpenseTable() {
 
   const saveCancelButtons = (
     <div className="flex items-center justify-center gap-[3px]">
-      <IconButton icon={Check} label="저장" onClick={save} />
-      <IconButton icon={X} label="취소" onClick={closeForm} />
+      <IconButton icon={Check} label="저장" size={18} onClick={save} />
+      <IconButton icon={X} label="취소" size={18} onClick={closeForm} />
     </div>
   );
 
@@ -493,9 +493,9 @@ export function ExpenseTable() {
                         {e.receiptState === "error" && <span className="text-[11.5px] text-[#c0433a]">업로드 실패</span>}
                         {e.receiptState === "none" && <span className="text-[11.5px] text-[#a8a89c]">영수증 없음</span>}
                       </span>
-                      <span className="inline-flex items-center gap-0.5">
-                        <IconButton icon={Pencil} label="관리비 항목 수정" onClick={() => startEdit(e)} />
-                        <IconButton icon={Trash2} label="관리비 항목 삭제" variant="danger" onClick={() => requestDelete(e.id)} />
+                      <span className="inline-flex items-center gap-[3px]">
+                        <IconButton icon={Pencil} label="관리비 항목 수정" size={16} onClick={() => startEdit(e)} />
+                        <IconButton icon={Trash2} label="관리비 항목 삭제" variant="danger" size={16} onClick={() => requestDelete(e.id)} />
                       </span>
                     </div>
                   </>
