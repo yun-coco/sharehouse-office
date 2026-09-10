@@ -1,5 +1,7 @@
 import { listTenants } from "@/lib/tenants/queries";
 import { TenantTable } from "./tenant-table";
+import { TenantSheet } from "./tenant-sheet";
+import { Button } from "@/components/ui/button";
 
 export default async function TenantsPage({
   params,
@@ -15,7 +17,11 @@ export default async function TenantsPage({
         <h1 className="text-[22px] font-bold tracking-tight text-[#1a1a1a]">
           입주자 관리
         </h1>
-        {/* Task 11에서 "입주자 추가" 버튼 연결 */}
+        <TenantSheet
+          mode="create"
+          houseId={houseId}
+          trigger={<Button>입주자 추가</Button>}
+        />
       </div>
       <TenantTable tenants={tenants} houseId={houseId} />
     </div>

@@ -9,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TenantSheet } from "./tenant-sheet";
+import { Button } from "@/components/ui/button";
 
 const SAMPLE_TENANTS: Tenant[] = [
   {
@@ -50,7 +52,7 @@ function formatDate(iso: string) {
 
 export function TenantTable({
   tenants,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Task 10(삭제), Task 11(수정)에서 사용 예정
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Task 11(삭제 버튼)에서 사용 예정
   houseId,
 }: {
   tenants: Tenant[];
@@ -68,7 +70,7 @@ export function TenantTable({
       )}
       <Table className="text-[13.5px]">
         <TableHeader>
-          <TableRow className="bg-[#f6f5f4] text-left text-[11px] font-semibold uppercase tracking-wide text-[#a39e98] hover:bg-[#f6f5f4]">
+          <TableRow className="border-b-0 bg-[#f6f5f4] text-left text-[11px] font-semibold uppercase tracking-wide text-[#a39e98] hover:bg-[#f6f5f4]">
             <TableHead className="h-auto px-5 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[#a39e98]">
               이름
             </TableHead>
@@ -105,7 +107,16 @@ export function TenantTable({
               <TableCell className="px-5 py-3 text-right">
                 {!isEmpty && (
                   <div className="flex justify-end gap-2">
-                    {/* Task 11에서 수정 버튼, Task 10에서 삭제 버튼 연결 */}
+                    <TenantSheet
+                      mode="edit"
+                      tenant={tenant}
+                      trigger={
+                        <Button variant="ghost" size="sm">
+                          수정
+                        </Button>
+                      }
+                    />
+                    {/* Task 11에서 삭제 버튼 연결 */}
                   </div>
                 )}
               </TableCell>
