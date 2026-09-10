@@ -27,10 +27,10 @@ create index tenants_house_id_deleted_at_idx
 -- 판단했다. 사전 조율된 방침에 따라 대안 1(대시보드/Admin API로 이미
 -- 존재하는 실제 auth 유저의 id를 owner_id로 사용)을 적용한다.
 --
--- 이 프로젝트의 Supabase 프로젝트(ref: ypnrxlejodwpbofudkhk)에는 이미
--- 구글 로그인으로 생성된 실제 유저가 하나 존재한다
--- (email: yunjeong.dev.2173@gmail.com). 그 유저의 id를 개발용 시드
--- house의 owner_id로 사용해 FK 참조 무결성을 유지한다.
+-- owner_id는 Supabase 대시보드(또는 Admin API)에서 확인한, 이미 구글
+-- 로그인으로 생성되어 있는 실제 auth 유저의 id를 그대로 사용한다.
+-- 그 유저의 id를 개발용 시드 house의 owner_id로 지정해 FK 참조
+-- 무결성을 유지한다.
 --
 -- service role key로 RLS를 우회하는 개발 단계에서는 owner_id가 실제
 -- 로그인 유저와 다르더라도 당장 문제되지 않지만, 여기서는 실제 유저의

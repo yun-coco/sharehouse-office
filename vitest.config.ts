@@ -9,6 +9,13 @@ export default defineConfig({
     environment: "node",
     globals: false,
     env,
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.worktrees/**",
+      "**/.git/**",
+      "**/.cache/**",
+    ],
   },
   resolve: {
     alias: {

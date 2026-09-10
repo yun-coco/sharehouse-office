@@ -102,4 +102,17 @@ describe("tenant server actions", () => {
       .single();
     expect(afterUndo.data?.deleted_at).toBeNull();
   });
+
+  it("updateTenant는 존재하지 않는 입주자 id에 대해 한국어 에러 메시지를 반환한다", async () => {
+    const result = await updateTenant("00000000-0000-0000-0000-000000000999", {
+      name: "없는사람",
+      moveInDate: "2026-01-01",
+      moveOutDate: "2026-12-31",
+      memo: null,
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.errors.form).toBe("해당 입주자를 찾을 수 없습니다.");
+    }
+  });
 });

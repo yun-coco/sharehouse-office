@@ -1,4 +1,6 @@
+import { notFound } from "next/navigation";
 import { listTenants } from "@/lib/tenants/queries";
+import { createServiceRoleClient } from "@/lib/supabase/service-role";
 import { TenantTable } from "./tenant-table";
 import { TenantSheet } from "./tenant-sheet";
 import { Button } from "@/components/ui/button";
@@ -9,6 +11,18 @@ export default async function TenantsPage({
   params: Promise<{ houseId: string }>;
 }) {
   const { houseId } = await params;
+
+  const supabase = createServiceRoleClient();
+  const { data: house } = await supabase
+    .from("houses")
+    .select("id")
+    .eq("id", houseId)
+    .maybeSingle();
+
+  if (!house) {
+    notFound();
+  }
+
   const tenants = await listTenants(houseId);
 
   return (

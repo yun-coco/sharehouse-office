@@ -63,7 +63,15 @@ export async function updateTenant(
     .single();
 
   if (error) {
-    return { ok: false, errors: { form: error.message } };
+    return {
+      ok: false,
+      errors: {
+        form:
+          error.code === "PGRST116"
+            ? "해당 입주자를 찾을 수 없습니다."
+            : error.message,
+      },
+    };
   }
 
   revalidatePath(`/houses/${data.house_id}/tenants`);
@@ -81,7 +89,15 @@ export async function deleteTenant(tenantId: string): Promise<ActionResult> {
     .single();
 
   if (error) {
-    return { ok: false, errors: { form: error.message } };
+    return {
+      ok: false,
+      errors: {
+        form:
+          error.code === "PGRST116"
+            ? "해당 입주자를 찾을 수 없습니다."
+            : error.message,
+      },
+    };
   }
 
   revalidatePath(`/houses/${data.house_id}/tenants`);
@@ -99,7 +115,15 @@ export async function undoDeleteTenant(tenantId: string): Promise<ActionResult> 
     .single();
 
   if (error) {
-    return { ok: false, errors: { form: error.message } };
+    return {
+      ok: false,
+      errors: {
+        form:
+          error.code === "PGRST116"
+            ? "해당 입주자를 찾을 수 없습니다."
+            : error.message,
+      },
+    };
   }
 
   revalidatePath(`/houses/${data.house_id}/tenants`);
