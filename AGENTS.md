@@ -21,5 +21,5 @@ PRD: `docs/sharehouse-office-prd.md`
 | 지점(하우스) | `house`            | `branch`는 git branch와 이름이 겹쳐 코드/커밋/리뷰에서 혼동되므로 사용 금지. PRD 4.1.0 |
 | 입주자      | `tenant`            | PRD 4.1.2                              |
 | 관리비      | `maintenance_fee`   | `expense`처럼 광범위한 이름 금지 (매출 등 다른 지출 개념과 혼동 방지) |
-| 정산(행위)  | `settlement`        | PRD 4.1.1, `/settlements/:year-:month` |
-| 정산월      | `settlement_period` | 예: 2026-09                            |
+| 정산(행위)  | `settlement`        | PRD 4.1.1, `/maintenance-fee-settlements/:year-:month` |
+| 정산월      | `maintenance_fee_settlement_period` | 예: 2026-09              |
