@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TenantSheet } from "./tenant-sheet";
+import { DeleteTenantButton } from "./delete-tenant-button";
 import { Button } from "@/components/ui/button";
 
 const SAMPLE_TENANTS: Tenant[] = [
@@ -116,7 +117,7 @@ export function TenantTable({
                         </Button>
                       }
                     />
-                    {/* Task 11에서 삭제 버튼 연결 */}
+                    <DeleteTenantButton tenant={tenant} />
                   </div>
                 )}
               </TableCell>
