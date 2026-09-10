@@ -8,10 +8,13 @@ const eslintConfig = defineConfig([
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
+    "node_modules/**",
     ".next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Claude Code worktrees live inside the project tree but are not project source.
+    ".claude/**",
   ]),
 ]);
 
