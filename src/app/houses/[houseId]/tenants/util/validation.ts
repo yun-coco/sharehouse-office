@@ -1,4 +1,4 @@
-import type { TenantInput } from "./types";
+import type { TenantInput } from "../type/tenant";
 
 export type ValidationResult =
   | { ok: true }

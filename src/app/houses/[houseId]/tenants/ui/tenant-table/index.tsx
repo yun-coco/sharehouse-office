@@ -1,6 +1,6 @@
 "use client";
 
-import type { Tenant } from "@/lib/tenants/types";
+import type { Tenant } from "../../type/tenant";
 import {
   Table,
   TableBody,
@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TenantSheet } from "./tenant-sheet";
-import { DeleteTenantButton } from "./delete-tenant-button";
+import { TenantSheet } from "../tenant-sheet";
+import { DeleteTenantButton } from "../delete-tenant-button";
 import { Button } from "@/components/ui/button";
 
 const SAMPLE_TENANTS: Tenant[] = [

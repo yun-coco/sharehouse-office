@@ -2,8 +2,8 @@
 
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { deleteTenant, undoDeleteTenant } from "./actions";
-import type { Tenant } from "@/lib/tenants/types";
+import { deleteTenant, undoDeleteTenant } from "../../api/actions";
+import type { Tenant } from "../../type/tenant";
 
 export function DeleteTenantButton({ tenant }: { tenant: Tenant }) {
   async function handleDelete() {

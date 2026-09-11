@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { listTenants } from "@/lib/tenants/queries";
+import { listTenants } from "./api/queries";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
-import { TenantTable } from "./tenant-table";
-import { TenantSheet } from "./tenant-sheet";
+import { TenantTable } from "./ui/tenant-table";
+import { TenantSheet } from "./ui/tenant-sheet";
 import { Button } from "@/components/ui/button";
 
 export default async function TenantsPage({

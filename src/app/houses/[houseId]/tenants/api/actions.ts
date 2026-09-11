@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
-import { validateTenantInput } from "@/lib/tenants/validation";
-import type { TenantInput } from "@/lib/tenants/types";
+import { validateTenantInput } from "../util/validation";
+import type { TenantInput } from "../type/tenant";
 
 export type ActionResult =
   | { ok: true; tenantId?: string }

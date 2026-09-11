@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { createTenant, updateTenant } from "./actions";
-import type { Tenant, TenantInput } from "@/lib/tenants/types";
+import { createTenant, updateTenant } from "../../api/actions";
+import type { Tenant, TenantInput } from "../../type/tenant";
 
 type Props =
   | { mode: "create"; houseId: string; trigger: React.ReactNode }
