@@ -84,19 +84,23 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 한글 등 비ASCII 문자열을 도구 호출 파라미터에 넣을 때는 리터럴 UTF-8로 그대로 쓴다.
 `\uXXXX` 유니코드 이스케이프로 바꿔 쓰지 않는다.
 
-## 프로젝트: 쉐어하우스 관리사무소
+## PRD
 
-PRD: `docs/sharehouse-office-prd.md`
+@docs/sharehouse-office-prd.md
+
+## 폴더 구조
+
+@docs/folder-structure.md
 
 ## 도메인 용어집
 
 코드/스키마/API에서 아래 한글 용어는 반드시 지정된 영문 네이밍으로 쓴다. 새로운 도메인 개념을 코드에 반영하기 전에는 먼저 이 표에 추가할 용어를 사용자와 확인한다.
 
-| 한글 용어    | 영문 네이밍                         | 비고                                                                                   |
-| ------------ | ----------------------------------- | -------------------------------------------------------------------------------------- |
-| 지점(하우스) | `house`                             | `branch`는 git branch와 이름이 겹쳐 코드/커밋/리뷰에서 혼동되므로 사용 금지. PRD 4.1.0 |
-| 입주자       | `tenant`                            | PRD 4.1.2                                                                              |
-| 관리비       | `maintenance_fee`                   | `expense`처럼 광범위한 이름 금지 (매출 등 다른 지출 개념과 혼동 방지)                  |
-| 정산(행위)   | `settlement`                        | PRD 4.1.1, `/maintenance-fee-settlements/:year-:month`                                 |
-| 정산월       | `maintenance_fee_settlement_period` | 예: 2026-09                                                                            |
+| 한글 용어    | 영문 네이밍                         | 비고                                                                                                           |
+| ------------ | ----------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| 지점(하우스) | `house`                             | `branch`는 git branch와 이름이 겹쳐 코드/커밋/리뷰에서 혼동되므로 사용 금지. PRD 4.1.0                         |
+| 입주자       | `tenant`                            | PRD 4.1.2                                                                                                      |
+| 관리비       | `maintenance_fee`                   | `expense`처럼 광범위한 이름 금지 (매출 등 다른 지출 개념과 혼동 방지)                                          |
+| 정산(행위)   | `settlement`                        | PRD 4.1.1, `/maintenance-fee-settlements/:year-:month`                                                         |
+| 정산월       | `maintenance_fee_settlement_period` | 예: 2026-09                                                                                                    |
 | 게시         | `publish` / `is_published`          | "확정(finalize)" 개념 폐기, PRD 4.1.1. 입주자에게 정보 공개 여부만 나타내며, 게시 후에도 모든 데이터 수정 가능 |
