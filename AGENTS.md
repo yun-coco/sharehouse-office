@@ -99,3 +99,4 @@ PRD: `docs/sharehouse-office-prd.md`
 | 관리비       | `maintenance_fee`                   | `expense`처럼 광범위한 이름 금지 (매출 등 다른 지출 개념과 혼동 방지)                  |
 | 정산(행위)   | `settlement`                        | PRD 4.1.1, `/maintenance-fee-settlements/:year-:month`                                 |
 | 정산월       | `maintenance_fee_settlement_period` | 예: 2026-09                                                                            |
+| 게시         | `publish` / `is_published`          | "확정(finalize)" 개념 폐기, PRD 4.1.1. 입주자에게 정보 공개 여부만 나타내며, 게시 후에도 모든 데이터 수정 가능 |
