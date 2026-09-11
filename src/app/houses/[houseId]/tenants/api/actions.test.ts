@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { createServiceRoleClient, DEV_HOUSE_ID } from "@/lib/supabase/service-role";
+import { createServiceRoleClient, DEV_HOUSE_ID } from "@/api/supabase/service-role";
 import { createTenant, updateTenant, deleteTenant, undoDeleteTenant } from "./actions";
 
 // Vitest에는 Next.js의 요청 스코프(static generation store)가 없어

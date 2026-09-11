@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/ui/atoms/sonner";
 import { SidebarNav } from "./sidebar-nav";
 import "./globals.css";
 

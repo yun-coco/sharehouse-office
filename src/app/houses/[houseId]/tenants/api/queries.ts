@@ -1,4 +1,4 @@
-import { createServiceRoleClient } from "@/lib/supabase/service-role";
+import { createServiceRoleClient } from "@/api/supabase/service-role";
 import type { Tenant } from "../type/tenant";
 
 type TenantRow = {

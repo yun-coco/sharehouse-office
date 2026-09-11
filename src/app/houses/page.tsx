@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createServiceRoleClient } from "@/lib/supabase/service-role";
+import { createServiceRoleClient } from "@/api/supabase/service-role";
 
 export default async function HousesIndexPage() {
   const supabase = createServiceRoleClient();

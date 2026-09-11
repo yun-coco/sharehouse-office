@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createServiceRoleClient } from "@/lib/supabase/service-role";
+import { createServiceRoleClient } from "@/api/supabase/service-role";
 import { validateTenantInput } from "../util/validation";
 import type { TenantInput } from "../type/tenant";
 

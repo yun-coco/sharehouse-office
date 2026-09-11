@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { createServiceRoleClient, DEV_HOUSE_ID } from "@/lib/supabase/service-role";
+import { createServiceRoleClient, DEV_HOUSE_ID } from "@/api/supabase/service-role";
 import { listTenants } from "./queries";
 
 describe("listTenants", () => {

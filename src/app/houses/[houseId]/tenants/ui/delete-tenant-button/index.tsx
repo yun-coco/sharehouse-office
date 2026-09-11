@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/atoms/button";
 import { deleteTenant, undoDeleteTenant } from "../../api/actions";
 import type { Tenant } from "../../type/tenant";
 

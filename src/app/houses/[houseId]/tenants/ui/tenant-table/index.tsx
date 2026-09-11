@@ -8,10 +8,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/ui/atoms/table";
 import { TenantSheet } from "../tenant-sheet";
 import { DeleteTenantButton } from "../delete-tenant-button";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/atoms/button";
 
 const SAMPLE_TENANTS: Tenant[] = [
   {

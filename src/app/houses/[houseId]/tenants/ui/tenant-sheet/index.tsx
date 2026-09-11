@@ -8,11 +8,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/ui/atoms/sheet";
+import { Button } from "@/ui/atoms/button";
+import { Input } from "@/ui/atoms/input";
+import { Label } from "@/ui/atoms/label";
+import { Textarea } from "@/ui/atoms/textarea";
 import { createTenant, updateTenant } from "../../api/actions";
 import type { Tenant, TenantInput } from "../../type/tenant";
 

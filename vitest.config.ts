@@ -20,7 +20,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "server-only": path.resolve(__dirname, "./src/lib/test-support/server-only-noop.ts"),
+      "server-only": path.resolve(__dirname, "./src/util/test-support/server-only-noop.ts"),
     },
   },
 });
